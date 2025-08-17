@@ -22,7 +22,7 @@ const achievements = [
     icon: '/images/icon/certificate.png',
     title: 'Certifications',
     description: 'Professional certifications and course completions showcasing continuous learning and skill development.',
-    link: 'https://drive.google.com/drive/folders/1Mb1DlSn5rkdGfmB6T5D-X-7V_Ibn1J8f',
+    link: 'https://drive.google.com/drive/folders/1Mb1DlSn5rkdGfmB6T5D-X-7V_Ibn1J8f?usp=sharing',
     linkText: 'View Certificates',
     color: 'from-blue-500 to-purple-500'
   }
