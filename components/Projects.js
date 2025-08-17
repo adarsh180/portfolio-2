@@ -18,32 +18,42 @@ const projectsData = [
   },
   {
     id: 2,
-    title: 'Movie Review App',
-    description: 'A web application for searching and filtering movies by genres with a clean UI and responsive design.',
-    image: '/projects/movie-app.jpg',
-    tags: ['React', 'Axios', 'MUI', 'Custom Hooks'],
-    demoLink: 'https://movie-review-app.vercel.app',
-    githubLink: 'https://github.com/adarsh180/movie-review-app',
-    category: 'frontend'
+    title: 'AccidentAware - AI-Powered Safety E-commerce Platform',
+    description: 'A full-stack e-commerce platform for smart helmet technology with integrated accident detection, emergency response systems, and complete payment integration.',
+    image: '/images/accident-website.png',
+    tags: ['Next.js', 'TypeScript', 'PostgreSQL', 'Razorpay', 'AI Safety'],
+    demoLink: 'https://accident-detectionl.vercel.app/',
+    githubLink: 'https://github.com/adarsh180/accidentaware',
+    category: 'fullstack'
   },
   {
     id: 3,
-    title: 'Malware Detection using ML',
-    description: 'Machine learning project using Decision Tree, Random Forest, AdaBoost, XGBoost, and Linear Regression algorithms on a dataset with 100K+ entries.',
-    image: '/projects/malware.jpg',
-    tags: ['Python', 'Machine Learning', 'Data Analysis'],
-    demoLink: '',
-    githubLink: 'https://github.com/adarsh180/malware-detection',
-    category: 'ai-ml'
+    title: 'Movie Review App',
+    description: 'A web application for searching and filtering movies by genres with a clean UI and responsive design.',
+    image: '/images/movie-review-webisite.png',
+    tags: ['React', 'Axios', 'MUI', 'Custom Hooks'],
+    demoLink: 'https://adarsh-react-movie.netlify.app/',
+    githubLink: 'https://github.com/adarsh180/movie-react-app',
+    category: 'frontend'
   },
   {
     id: 4,
+    title: 'Malware Detection using ML',
+    description: 'Machine learning project using Decision Tree, Random Forest, AdaBoost, XGBoost, and Linear Regression algorithms on a dataset with 100K+ entries.',
+    image: '/images/malware-detection.png',
+    tags: ['Python', 'Machine Learning', 'Data Analysis'],
+    demoLink: '',
+    githubLink: 'https://github.com/adarsh180/Malware_Detection_using_Machine_Learning-main',
+    category: 'ai-ml'
+  },
+  {
+    id: 5,
     title: 'Portfolio Website',
     description: 'A responsive portfolio website with dark mode and animations built with Next.js and TailwindCSS.',
-    image: '/projects/portfolio.jpg',
+    image: '/images/portfolio-website.png',
     tags: ['Next.js', 'TailwindCSS', 'Framer Motion'],
-    demoLink: '',
-    githubLink: 'https://github.com/adarsh180/portfolio',
+    demoLink: 'https://adarsh-tiwari-portfolio-sable.vercel.app/',
+    githubLink: 'https://github.com/adarsh180/portfolio-2',
     category: 'frontend'
   }
 ];
@@ -59,6 +69,7 @@ export default function Projects() {
     { id: 'all', name: 'All Projects' },
     { id: 'frontend', name: 'Frontend' },
     { id: 'backend', name: 'Backend' },
+    { id: 'fullstack', name: 'Full Stack' },
     { id: 'ai-ml', name: 'AI/ML' }
   ];
 

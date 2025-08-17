@@ -38,7 +38,10 @@ export default function Hero() {
                 Contact Me <FiArrowRight className="ml-2" />
               </Link>
               <a 
-                href="/resume.pdf" 
+                href="/ADARSH-TIWARI.pdf" 
+                download="Adarsh_Tiwari_Resume.pdf"
+                target="_blank"
+                rel="noopener noreferrer"
                 className="btn border border-gray-300 dark:border-gray-700 hover:bg-gray-100 dark:hover:bg-gray-800 flex items-center"
               >
                 Download Resume <FiDownload className="ml-2" />
