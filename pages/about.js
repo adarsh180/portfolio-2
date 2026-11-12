@@ -1,112 +1,116 @@
 import About from '../components/About';
 import { motion } from 'framer-motion';
-import AnimatedSection from '../components/AnimatedSection';
-import { FiCalendar, FiBookOpen } from 'react-icons/fi';
+import { Briefcase, Calendar, BookOpen, ExternalLink } from 'lucide-react';
+import SectionHeading from '../components/ui/SectionHeading';
+import { WORK_EXPERIENCE, CERTIFICATIONS_LIST, EDUCATION_LIST } from '../utils/portfolioData';
 
 export default function AboutPage() {
-  const experiences = [
-    {
-      title: 'AWS AI/ML Specialization',
-      company: 'Amazon Web Services',
-      period: '2023',
-      description: 'Built and deployed scalable machine learning models using AWS SageMaker.'
-    },
-    {
-      title: 'SAP S/4HANA Development',
-      company: 'Techno India University',
-      period: '2022',
-      description: 'Conducted by Prof. Rajdeep Ghatak, TIU. Learned enterprise resource planning and development.'
-    },
-    {
-      title: 'Smart India Hackathon 2023',
-      company: 'Government of India',
-      period: '2023',
-      description: 'Qualified and led the team in the 1st round of Smart India Hackathon 2023.'
-    },
-    {
-      title: 'Accenture North America Data Analytics',
-      company: 'Accenture',
-      period: '2022',
-      description: 'Completed Job Simulation with focus on data cleaning, analysis, and visualization.'
-    }
-  ];
-
-  const education = [
-    {
-      degree: 'B.Tech in Electronics and Communication',
-      institution: 'Techno India University',
-      period: '2021 - 2025',
-      description: 'Currently pursuing with a CGPA of 7.23. Focusing on web development and AI/ML.'
-    },
-    {
-      degree: 'ISC (12th)',
-      institution: 'S.T. Thomas Church School',
-      period: '2019 - 2021',
-      description: 'Completed with 65% marks.'
-    },
-    {
-      degree: 'CBSE (10th)',
-      institution: 'Indira Gandhi Memorial High School',
-      period: '2018 - 2019',
-      description: 'Completed with 70% marks.'
-    }
-  ];
-
   return (
     <div className="pt-20">
       <About />
       
-      <section className="section-padding bg-white dark:bg-gray-800">
+      {/* Work Experience */}
+      <section className="section-padding relative z-10">
         <div className="container-custom">
-          <AnimatedSection>
-            <h2 className="text-3xl md:text-4xl font-bold text-center mb-4">Certifications & Achievements</h2>
-            <p className="text-center text-gray-600 dark:text-gray-400 mb-12 max-w-2xl mx-auto">
-              My professional certifications, courses, and notable achievements.
-            </p>
-          </AnimatedSection>
+          <SectionHeading 
+            title="Work Experience"
+            subtitle="Product engineering, independent software development, and data analytics experience."
+          />
           
           <div className="max-w-3xl mx-auto">
-            {experiences.map((exp, index) => (
-              <AnimatedSection key={index} delay={index * 0.1}>
-                <div className="relative pl-8 pb-12 border-l-2 border-gray-200 dark:border-gray-700 last:border-0 last:pb-0">
-                  <div className="absolute left-[-9px] top-0 w-4 h-4 bg-primary rounded-full" />
-                  <div className="mb-1 flex items-center">
-                    <FiCalendar className="mr-2 text-primary" />
-                    <span className="text-sm text-gray-500 dark:text-gray-400">{exp.period}</span>
-                  </div>
-                  <h3 className="text-xl font-bold">{exp.title}</h3>
-                  <p className="text-primary mb-2">{exp.company}</p>
-                  <p className="text-gray-600 dark:text-gray-400">{exp.description}</p>
+            {WORK_EXPERIENCE.map((work, index) => (
+              <motion.div 
+                key={index}
+                initial={{ opacity: 0, x: -20 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true, margin: "-80px" }}
+                transition={{ delay: index * 0.1, duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+                className="relative pl-8 pb-10 border-l border-cyan-500/25 last:border-0 last:pb-0"
+              >
+                <div className="absolute left-[-5px] top-1 w-2.5 h-2.5 bg-gradient-to-br from-cyan-400 to-violet-500 rounded-full shadow-lg shadow-cyan-500/30" />
+                <div className="mb-1 flex items-center gap-2">
+                  <Briefcase size={14} className="text-cyan-400" />
+                  <span className="text-sm text-muted-foreground">{work.period}</span>
                 </div>
-              </AnimatedSection>
+                <h3 className="text-lg font-bold font-display text-foreground">{work.title}</h3>
+                {work.link ? (
+                  <a
+                    href={work.link}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-1.5 text-cyan-400 hover:text-cyan-300 text-sm mb-1.5 transition-colors"
+                  >
+                    {work.company} <ExternalLink size={13} />
+                  </a>
+                ) : (
+                  <p className="text-cyan-400 text-sm mb-1.5">{work.company}</p>
+                )}
+                <p className="text-sm text-muted-foreground leading-relaxed">{work.description}</p>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Certifications & Achievements */}
+      <section className="section-padding relative z-10">
+        <div className="container-custom">
+          <SectionHeading 
+            title="Certifications & Achievements"
+            subtitle="Hackathon leadership, cloud AI/ML training, and enterprise software courses."
+          />
+          
+          <div className="max-w-3xl mx-auto">
+            {CERTIFICATIONS_LIST.map((exp, index) => (
+              <motion.div 
+                key={index}
+                initial={{ opacity: 0, x: -20 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true, margin: "-80px" }}
+                transition={{ delay: index * 0.1, duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+                className="relative pl-8 pb-10 border-l border-violet-500/20 last:border-0 last:pb-0"
+              >
+                <div className="absolute left-[-5px] top-1 w-2.5 h-2.5 bg-gradient-to-br from-violet-500 to-indigo-500 rounded-full shadow-lg shadow-violet-500/30" />
+                <div className="mb-1 flex items-center gap-2">
+                  <Calendar size={14} className="text-violet-400" />
+                  <span className="text-sm text-muted-foreground">{exp.year}</span>
+                </div>
+                <h3 className="text-lg font-bold font-display text-foreground">{exp.title}</h3>
+                <p className="text-violet-400 text-sm mb-1">{exp.org}</p>
+                <p className="text-sm text-muted-foreground leading-relaxed">{exp.desc}</p>
+              </motion.div>
             ))}
           </div>
         </div>
       </section>
       
-      <section className="section-padding bg-gray-50 dark:bg-gray-900">
+      {/* Education */}
+      <section className="section-padding relative z-10">
         <div className="container-custom">
-          <AnimatedSection>
-            <h2 className="text-3xl md:text-4xl font-bold text-center mb-4">Education</h2>
-            <p className="text-center text-gray-600 dark:text-gray-400 mb-12 max-w-2xl mx-auto">
-              My academic background and qualifications.
-            </p>
-          </AnimatedSection>
+          <SectionHeading 
+            title="Education"
+            subtitle="Academic background and qualifications."
+          />
           
           <div className="max-w-3xl mx-auto">
-            {education.map((edu, index) => (
-              <AnimatedSection key={index} delay={index * 0.1}>
-                <div className="relative pl-8 pb-12 border-l-2 border-gray-200 dark:border-gray-700 last:border-0 last:pb-0">
-                  <div className="absolute left-[-9px] top-0 w-4 h-4 bg-secondary rounded-full" />
-                  <div className="mb-1 flex items-center">
-                    <FiBookOpen className="mr-2 text-secondary" />
-                    <span className="text-sm text-gray-500 dark:text-gray-400">{edu.period}</span>
-                  </div>
-                  <h3 className="text-xl font-bold">{edu.degree}</h3>
-                  <p className="text-secondary mb-2">{edu.institution}</p>
-                  <p className="text-gray-600 dark:text-gray-400">{edu.description}</p>
+            {EDUCATION_LIST.map((edu, index) => (
+              <motion.div 
+                key={index}
+                initial={{ opacity: 0, x: -20 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true, margin: "-80px" }}
+                transition={{ delay: index * 0.1, duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+                className="relative pl-8 pb-10 border-l border-fuchsia-500/20 last:border-0 last:pb-0"
+              >
+                <div className="absolute left-[-5px] top-1 w-2.5 h-2.5 bg-gradient-to-br from-fuchsia-500 to-pink-500 rounded-full shadow-lg shadow-fuchsia-500/30" />
+                <div className="mb-1 flex items-center gap-2">
+                  <BookOpen size={14} className="text-fuchsia-400" />
+                  <span className="text-sm text-muted-foreground">{edu.period}</span>
                 </div>
-              </AnimatedSection>
+                <h3 className="text-lg font-bold font-display text-foreground">{edu.degree}</h3>
+                <p className="text-fuchsia-400 text-sm mb-1">{edu.institution}</p>
+                <p className="text-sm text-muted-foreground leading-relaxed">{edu.description}</p>
+              </motion.div>
             ))}
           </div>
         </div>

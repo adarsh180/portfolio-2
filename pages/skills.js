@@ -1,80 +1,47 @@
 import Skills from '../components/Skills';
-import AnimatedSection from '../components/AnimatedSection';
-import { FiCode, FiLayout, FiDatabase, FiTool, FiMonitor, FiUsers } from 'react-icons/fi';
+import { motion } from 'framer-motion';
+import { Code2, Layout, Wrench, Database, Monitor, Users } from 'lucide-react';
+import GlowCard from '../components/ui/GlowCard';
+import SectionHeading from '../components/ui/SectionHeading';
+import { CERTIFICATIONS_LIST } from '../utils/portfolioData';
 
 export default function SkillsPage() {
   const skillCategories = [
     {
-      icon: <FiCode size={24} />,
-      title: 'Languages',
-      description: 'Programming languages I have experience with for various applications.',
-      skills: [
-        'C++',
-        'C',
-        'Python',
-        'Java',
-        'JavaScript'
-      ]
+      icon: <Code2 size={20} className="text-violet-400" />,
+      title: 'Programming Languages',
+      description: 'Core languages used across production web systems, algorithms, and data pipelines.',
+      skills: ['TypeScript', 'JavaScript (ES6+)', 'Python', 'C++ & C', 'Java & SQL']
     },
     {
-      icon: <FiLayout size={24} />,
-      title: 'Frameworks',
-      description: 'Frontend and backend frameworks I use to build web applications.',
-      skills: [
-        'React',
-        'Next.js',
-        'Material UI',
-        'TailwindCSS',
-        'Bootstrap'
-      ]
+      icon: <Layout size={20} className="text-fuchsia-400" />,
+      title: 'Web & Product Engineering',
+      description: 'Frameworks and browser APIs powering SEMDIV and full-stack web platforms.',
+      skills: ['Next.js (App & Pages Router)', 'React', 'TailwindCSS & Material UI', 'Prisma & PostgreSQL', 'WebAssembly & WebCodecs']
     },
     {
-      icon: <FiTool size={24} />,
-      title: 'Tools',
-      description: 'Development tools and technologies I use in my workflow.',
-      skills: [
-        'Git',
-        'GitHub',
-        'Docker',
-        'Kubernetes',
-        'AWS'
-      ]
+      icon: <Wrench size={20} className="text-cyan-400" />,
+      title: 'Document, OCR & AI/ML',
+      description: 'Multilingual document analysis, annotation pipelines, and machine learning models.',
+      skills: ['14-Language Indian OCR (Tesseract)', '2D Bounding-Box & Layout Parsing', 'Scikit-Learn & XGBoost', '100K+ Dataset Curation & QA', 'AWS SageMaker']
     },
     {
-      icon: <FiDatabase size={24} />,
-      title: 'Technologies',
-      description: 'Various technologies and domains I have experience with.',
-      skills: [
-        'Web Development',
-        'Machine Learning',
-        'DBMS',
-        'Networking',
-        'TCP/IP'
-      ]
+      icon: <Database size={20} className="text-emerald-400" />,
+      title: 'Cloud, Security & DevOps',
+      description: 'Deployment, containerization, cryptographic sealing, and version control.',
+      skills: ['Git & GitHub', 'Vercel & Netlify CI/CD', 'Docker & Kubernetes', 'SHA-256 & AES-256-GCM Security', 'AWS Cloud']
     },
     {
-      icon: <FiMonitor size={24} />,
-      title: 'Operating Systems',
-      description: 'Operating systems I am comfortable working with.',
-      skills: [
-        'Windows',
-        'Linux',
-        'Command Line',
-        'Shell Scripting',
-        'System Administration'
-      ]
+      icon: <Monitor size={20} className="text-amber-400" />,
+      title: 'Systems & Networking',
+      description: 'Operating systems and core electronics & communication engineering foundations.',
+      skills: ['Linux & Shell Scripting', 'Windows Administration', 'DBMS & Relational Modeling', 'TCP/IP & Networking', 'System Optimization']
     },
     {
-      icon: <FiUsers size={24} />,
-      title: 'Soft Skills',
-      description: 'Essential non-technical skills for successful collaboration and project delivery.',
-      skills: [
-        'Leadership',
-        'Communication',
-        'Critical Thinking',
-        'Time Management',
-        'Problem Solving'
-      ]
+      icon: <Users size={20} className="text-rose-400" />,
+      title: 'Languages & Work Ethic',
+      description: 'Bilingual communication, proofreading precision, and team leadership.',
+      skills: ['Hindi — Native (Devanagari Read/Write/Type)', 'English — Fluent Professional', 'High-Precision Proofreading & QA', 'Team Leadership (SIH 2023)', 'Consistent Guideline Execution']
     }
   ];
 
@@ -82,87 +49,73 @@ export default function SkillsPage() {
     <div className="pt-20">
       <Skills />
       
-      <section className="section-padding bg-gray-50 dark:bg-gray-900">
+      {/* Skill Categories Grid */}
+      <section className="section-padding relative z-10">
         <div className="container-custom">
-          <AnimatedSection>
-            <h2 className="text-3xl md:text-4xl font-bold text-center mb-4">Skill Categories</h2>
-            <p className="text-center text-gray-600 dark:text-gray-400 mb-12 max-w-2xl mx-auto">
-              A detailed breakdown of my technical skills and expertise across different domains.
-            </p>
-          </AnimatedSection>
+          <SectionHeading
+            title="Skill Categories"
+            subtitle="Detailed breakdown of technical capabilities, document/OCR expertise, and spoken languages."
+          />
           
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-5">
             {skillCategories.map((category, index) => (
-              <AnimatedSection key={index} delay={0.1 * index}>
-                <div className="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-lg h-full">
-                  <div className="flex items-center mb-4">
-                    <div className="p-3 bg-primary/10 text-primary rounded-lg mr-4">
-                      {category.icon}
+              <motion.div
+                key={index}
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-80px" }}
+                transition={{ delay: 0.05 * index, duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+              >
+                <GlowCard className="h-full">
+                  <div>
+                    <div className="flex items-center gap-3 mb-3">
+                      <div className="p-2 rounded-lg bg-white/[0.05] border border-white/[0.06]">
+                        {category.icon}
+                      </div>
+                      <h3 className="text-lg font-bold font-display text-foreground">{category.title}</h3>
                     </div>
-                    <h3 className="text-xl font-bold">{category.title}</h3>
+                    <p className="text-sm text-muted-foreground mb-4 leading-relaxed">{category.description}</p>
+                    <ul className="space-y-2">
+                      {category.skills.map((skill, idx) => (
+                        <li key={idx} className="flex items-center gap-2 text-sm text-foreground">
+                          <span className="w-1.5 h-1.5 bg-violet-500 rounded-full" />
+                          {skill}
+                        </li>
+                      ))}
+                    </ul>
                   </div>
-                  
-                  <p className="text-gray-600 dark:text-gray-400 mb-4">
-                    {category.description}
-                  </p>
-                  
-                  <ul className="space-y-2">
-                    {category.skills.map((skill, idx) => (
-                      <li key={idx} className="flex items-center">
-                        <span className="w-2 h-2 bg-primary rounded-full mr-2"></span>
-                        {skill}
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              </AnimatedSection>
+                </GlowCard>
+              </motion.div>
             ))}
           </div>
         </div>
       </section>
       
-      <section className="section-padding">
+      {/* Certifications */}
+      <section className="section-padding relative z-10">
         <div className="container-custom">
-          <AnimatedSection>
-            <h2 className="text-3xl md:text-4xl font-bold text-center mb-4">Certifications & Courses</h2>
-            <p className="text-center text-gray-600 dark:text-gray-400 mb-12 max-w-2xl mx-auto">
-              I'm constantly learning and improving my skills. Here are some of the certifications and courses I've completed.
-            </p>
-          </AnimatedSection>
+          <SectionHeading
+            title="Certifications & Honours"
+            subtitle="Verified training and national hackathon recognition."
+          />
           
-          <div className="max-w-3xl mx-auto">
-            <AnimatedSection>
-              <div className="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-lg mb-6">
-                <h3 className="text-xl font-bold mb-2">AWS AI/ML Specialization</h3>
-                <p className="text-primary mb-2">Amazon Web Services</p>
-                <p className="text-gray-600 dark:text-gray-400 mb-4">
-                  Built and deployed scalable machine learning models using AWS SageMaker.
-                </p>
-                <div className="text-sm text-gray-500 dark:text-gray-400">Completed in 2023</div>
-              </div>
-            </AnimatedSection>
-            
-            <AnimatedSection delay={0.1}>
-              <div className="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-lg mb-6">
-                <h3 className="text-xl font-bold mb-2">SAP S/4HANA Development</h3>
-                <p className="text-primary mb-2">Techno India University</p>
-                <p className="text-gray-600 dark:text-gray-400 mb-4">
-                  Conducted by Prof. Rajdeep Ghatak, TIU. Learned enterprise resource planning and development.
-                </p>
-                <div className="text-sm text-gray-500 dark:text-gray-400">Completed in 2022</div>
-              </div>
-            </AnimatedSection>
-            
-            <AnimatedSection delay={0.2}>
-              <div className="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-lg">
-                <h3 className="text-xl font-bold mb-2">Accenture North America Data Analytics</h3>
-                <p className="text-primary mb-2">Accenture</p>
-                <p className="text-gray-600 dark:text-gray-400 mb-4">
-                  Completed Job Simulation with focus on data cleaning, analysis, and visualization.
-                </p>
-                <div className="text-sm text-gray-500 dark:text-gray-400">Completed in 2022</div>
-              </div>
-            </AnimatedSection>
+          <div className="max-w-3xl mx-auto space-y-4">
+            {CERTIFICATIONS_LIST.map((cert, index) => (
+              <motion.div
+                key={index}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: index * 0.1, duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+              >
+                <div className="glass-card p-6 rounded-2xl hover:bg-white/[0.06] transition-colors">
+                  <h3 className="text-lg font-bold font-display text-foreground mb-1">{cert.title}</h3>
+                  <p className="text-violet-400 text-sm mb-1">{cert.org}</p>
+                  <p className="text-sm text-muted-foreground mb-2 leading-relaxed">{cert.desc}</p>
+                  <div className="text-xs text-muted-foreground/70">Completed in {cert.year}</div>
+                </div>
+              </motion.div>
+            ))}
           </div>
         </div>
       </section>

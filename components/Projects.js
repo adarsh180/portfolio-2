@@ -1,178 +1,171 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
-import { FiExternalLink, FiGithub, FiArrowRight } from 'react-icons/fi';
-import AnimatedSection from './AnimatedSection';
-
-// Project data
-const projectsData = [
-  {
-    id: 1,
-    title: 'Arogya Sahayak - Medical AI Assistant',
-    description: 'An intelligent medical AI web application that provides health assistance, symptom analysis, and medical guidance using advanced AI algorithms.',
-    image: '/images/image.png',
-    tags: ['AI/ML', 'Healthcare', 'React', 'Medical Tech'],
-    demoLink: 'https://arogya-sahayakl.netlify.app',
-    githubLink: 'https://github.com/adarsh180/arogya-sahayak',
-    category: 'ai-ml'
-  },
-  {
-    id: 2,
-    title: 'AccidentAware - AI-Powered Safety E-commerce Platform',
-    description: 'A full-stack e-commerce platform for smart helmet technology with integrated accident detection, emergency response systems, and complete payment integration.',
-    image: '/images/accident-website.png',
-    tags: ['Next.js', 'TypeScript', 'PostgreSQL', 'Razorpay', 'AI Safety'],
-    demoLink: 'https://accident-detectionl.vercel.app/',
-    githubLink: 'https://github.com/adarsh180/accidentaware',
-    category: 'fullstack'
-  },
-  {
-    id: 3,
-    title: 'Movie Review App',
-    description: 'A web application for searching and filtering movies by genres with a clean UI and responsive design.',
-    image: '/images/movie-review-webisite.png',
-    tags: ['React', 'Axios', 'MUI', 'Custom Hooks'],
-    demoLink: 'https://adarsh-react-movie.netlify.app/',
-    githubLink: 'https://github.com/adarsh180/movie-react-app',
-    category: 'frontend'
-  },
-  {
-    id: 4,
-    title: 'Malware Detection using ML',
-    description: 'Machine learning project using Decision Tree, Random Forest, AdaBoost, XGBoost, and Linear Regression algorithms on a dataset with 100K+ entries.',
-    image: '/images/malware-detection.png',
-    tags: ['Python', 'Machine Learning', 'Data Analysis'],
-    demoLink: '',
-    githubLink: 'https://github.com/adarsh180/Malware_Detection_using_Machine_Learning-main',
-    category: 'ai-ml'
-  },
-  {
-    id: 5,
-    title: 'Portfolio Website',
-    description: 'A responsive portfolio website with dark mode and animations built with Next.js and TailwindCSS.',
-    image: '/images/portfolio-website.png',
-    tags: ['Next.js', 'TailwindCSS', 'Framer Motion'],
-    demoLink: 'https://adarsh-tiwari-portfolio-sable.vercel.app/',
-    githubLink: 'https://github.com/adarsh180/portfolio-2',
-    category: 'frontend'
-  }
-];
+import { ExternalLink, Github, ArrowRight } from 'lucide-react';
+import { GlowingEffect } from './ui/GlowingEffect';
+import SectionHeading from './ui/SectionHeading';
+import { PROJECTS_DATA } from '../utils/portfolioData';
 
 export default function Projects() {
   const [filter, setFilter] = useState('all');
   
+  const homeProjects = PROJECTS_DATA.slice(0, 6);
   const filteredProjects = filter === 'all' 
-    ? projectsData 
-    : projectsData.filter(project => project.category === filter);
+    ? homeProjects 
+    : PROJECTS_DATA.filter(project => project.category === filter);
   
   const categories = [
-    { id: 'all', name: 'All Projects' },
-    { id: 'frontend', name: 'Frontend' },
-    { id: 'backend', name: 'Backend' },
+    { id: 'all', name: 'Featured Work' },
     { id: 'fullstack', name: 'Full Stack' },
-    { id: 'ai-ml', name: 'AI/ML' }
+    { id: 'ai-ml', name: 'AI/ML & OCR' },
+    { id: 'frontend', name: 'Frontend' }
   ];
 
   return (
-    <section id="projects" className="section-padding bg-gray-50 dark:bg-gray-900">
+    <section id="projects" className="section-padding relative z-10">
       <div className="container-custom">
-        <AnimatedSection>
-          <h2 className="text-3xl md:text-4xl font-bold text-center mb-4">My Projects</h2>
-          <p className="text-center text-gray-600 dark:text-gray-400 mb-12 max-w-2xl mx-auto">
-            Here are some of my recent projects. Each one was built to solve a specific problem or explore new technologies.
-          </p>
-        </AnimatedSection>
+        <SectionHeading
+          title="Featured Projects & Products"
+          subtitle="Production web suites, multilingual Indian OCR & PDF tools, AI assistants, and machine learning pipelines."
+        />
         
-        <AnimatedSection delay={0.2}>
-          <div className="flex flex-wrap justify-center gap-4 mb-12">
-            {categories.map(category => (
-              <button
-                key={category.id}
-                onClick={() => setFilter(category.id)}
-                className={`px-4 py-2 rounded-full transition-all ${
-                  filter === category.id
-                    ? 'bg-primary text-white'
-                    : 'bg-gray-200 dark:bg-gray-800 hover:bg-gray-300 dark:hover:bg-gray-700'
-                }`}
-              >
-                {category.name}
-              </button>
-            ))}
-          </div>
-        </AnimatedSection>
+        {/* Filter Buttons */}
+        <motion.div 
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5, delay: 0.1 }}
+          className="flex flex-wrap justify-center gap-3 mb-12"
+        >
+          {categories.map(category => (
+            <button
+              key={category.id}
+              onClick={() => setFilter(category.id)}
+              className={`px-5 py-2 rounded-full text-sm font-medium transition-all duration-300 ${
+                filter === category.id
+                  ? 'bg-gradient-to-r from-violet-600 to-indigo-600 text-white shadow-lg shadow-violet-500/25'
+                  : 'bg-white/5 border border-white/[0.08] text-muted-foreground hover:bg-white/10 hover:text-foreground'
+              }`}
+            >
+              {category.name}
+            </button>
+          ))}
+        </motion.div>
         
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        {/* Project Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-5">
           {filteredProjects.map((project, index) => (
-            <AnimatedSection key={project.id} delay={0.1 * (index % 3)}>
-              <div className="bg-white dark:bg-gray-800 rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-shadow">
-                <div className="h-48 bg-gray-200 dark:bg-gray-700 flex items-center justify-center overflow-hidden">
-                  {project.image ? (
-                    <img 
-                      src={project.image} 
-                      alt={project.title}
-                      className="w-full h-full object-cover"
-                    />
-                  ) : (
-                    <div className="text-gray-500 dark:text-gray-400">Project Image</div>
-                  )}
-                </div>
-                <div className="p-6">
-                  <h3 className="text-xl font-bold mb-2">{project.title}</h3>
-                  <p className="text-gray-600 dark:text-gray-400 mb-4">{project.description}</p>
-                  <div className="flex flex-wrap gap-2 mb-4">
-                    {project.tags.map(tag => (
-                      <span 
-                        key={tag} 
-                        className="text-xs bg-gray-100 dark:bg-gray-700 px-2 py-1 rounded-full"
-                      >
-                        {tag}
-                      </span>
-                    ))}
+            <motion.div
+              key={project.id}
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-80px" }}
+              transition={{ delay: 0.05 * (index % 3), duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+              layout
+            >
+              <div className="relative rounded-[1.25rem] border border-white/[0.08] p-2 md:rounded-[1.5rem] md:p-3 h-full group">
+                <GlowingEffect
+                  spread={40}
+                  glow={true}
+                  disabled={false}
+                  proximity={64}
+                  inactiveZone={0.01}
+                  borderWidth={3}
+                />
+                <div className="relative h-full flex flex-col rounded-xl border border-white/[0.06] bg-[hsl(var(--card))] overflow-hidden shadow-sm dark:shadow-[0px_0px_27px_0px_rgba(45,45,45,0.3)]">
+                  {/* Image */}
+                  <div className="h-48 overflow-hidden relative">
+                    {project.image ? (
+                      <img 
+                        src={project.image} 
+                        alt={project.title}
+                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                      />
+                    ) : (
+                      <div className="w-full h-full bg-white/[0.03] flex items-center justify-center text-muted-foreground">
+                        Project Image
+                      </div>
+                    )}
+                    <div className="absolute inset-0 bg-gradient-to-t from-[hsl(var(--card))] via-transparent to-transparent" />
+                    {project.featured && (
+                      <div className="absolute top-3 right-3 px-2.5 py-1 rounded-full bg-violet-500/20 backdrop-blur-md border border-violet-500/30 text-violet-300 text-xs font-medium">
+                        Featured
+                      </div>
+                    )}
                   </div>
-                  <div className="flex justify-between">
-                    <div>
+                  
+                  {/* Content */}
+                  <div className="p-6 flex flex-col flex-grow">
+                    <h3 className="text-lg font-bold font-display mb-2 text-foreground line-clamp-1">{project.title}</h3>
+                    <p className="text-sm text-muted-foreground mb-4 line-clamp-3 flex-grow">{project.description}</p>
+                    
+                    {/* Tags */}
+                    <div className="flex flex-wrap gap-2 mb-5">
+                      {project.tags.slice(0, 3).map(tag => (
+                        <span 
+                          key={tag} 
+                          className="text-xs px-2.5 py-1 rounded-full bg-violet-500/10 text-violet-400 border border-violet-500/20"
+                        >
+                          {tag}
+                        </span>
+                      ))}
+                      {project.tags.length > 3 && (
+                        <span className="text-xs px-2.5 py-1 rounded-full bg-white/5 text-muted-foreground border border-white/[0.08]">
+                          +{project.tags.length - 3}
+                        </span>
+                      )}
+                    </div>
+                    
+                    {/* Links */}
+                    <div className="flex items-center justify-between pt-3 border-t border-white/[0.06] mt-auto">
                       {project.demoLink ? (
                         <a 
                           href={project.demoLink} 
                           target="_blank" 
                           rel="noopener noreferrer"
-                          className="flex items-center text-primary hover:underline"
+                          className="flex items-center gap-1.5 text-sm font-medium text-violet-400 hover:text-violet-300 transition-colors"
                         >
-                          Live Demo <FiExternalLink className="ml-1" />
+                          Live App <ExternalLink size={14} />
                         </a>
                       ) : (
-                        <span className="text-gray-400">Demo N/A</span>
+                        <span className="text-sm text-muted-foreground/50">Research / ML</span>
                       )}
-                    </div>
-                    <div>
                       {project.githubLink ? (
                         <a 
                           href={project.githubLink} 
                           target="_blank" 
                           rel="noopener noreferrer"
-                          className="flex items-center hover:text-primary"
+                          className="flex items-center gap-1.5 text-sm text-muted-foreground hover:text-foreground transition-colors"
                         >
-                          <FiGithub className="mr-1" /> Code
+                          <Github size={14} />
+                          {project.codeLabel || 'Code'}
                         </a>
                       ) : (
-                        <span className="text-gray-400">Private</span>
+                        <span className="text-sm text-muted-foreground/50">Private</span>
                       )}
                     </div>
                   </div>
                 </div>
               </div>
-            </AnimatedSection>
+            </motion.div>
           ))}
         </div>
         
-        <AnimatedSection delay={0.4} className="text-center mt-12">
+        {/* View All */}
+        <motion.div 
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ delay: 0.3, duration: 0.5 }}
+          className="text-center mt-12"
+        >
           <Link 
             href="/projects" 
-            className="btn btn-primary inline-flex items-center"
+            className="btn btn-primary inline-flex items-center gap-2 group"
           >
-            View All Projects <FiArrowRight className="ml-2" />
+            View All Projects <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
           </Link>
-        </AnimatedSection>
+        </motion.div>
       </div>
     </section>
   );

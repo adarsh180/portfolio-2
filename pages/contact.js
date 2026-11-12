@@ -1,28 +1,26 @@
 import Contact from '../components/Contact';
-import AnimatedSection from '../components/AnimatedSection';
-import { FiMessageSquare } from 'react-icons/fi';
+import { motion } from 'framer-motion';
+import { MessageCircle, Mail } from 'lucide-react';
+import SectionHeading from '../components/ui/SectionHeading';
+import { PROFILE } from '../utils/portfolioData';
 
 export default function ContactPage() {
   const faqs = [
     {
-      question: 'What are your areas of expertise?',
-      answer: 'I specialize in web development, machine learning, and electronics. My technical skills include C++, Python, React, and various ML algorithms.'
+      question: 'What are your core areas of expertise?',
+      answer: 'I specialize in full-stack web engineering (Next.js, React, TypeScript, PostgreSQL), document & PDF systems, multilingual Indian OCR & bounding-box layout pipelines, and machine learning (Python, Scikit-Learn, XGBoost).'
     },
     {
-      question: 'Are you available for internships or job opportunities?',
-      answer: 'Yes, I am actively seeking internships and job opportunities in web development, AI/ML, and related fields. I am available for both remote and on-site positions.'
+      question: 'What have you built recently?',
+      answer: 'I built SEMDIV & Folio Scan (www.semdiv.com) — a flagship browser project for PDF region markup, 14-language Indian OCR, structured documents, spreadsheets, and media, alongside Arogya Sahayak (Medical AI), AccidentAware, and 100K+ record ML pipelines on @adarsh180.'
     },
     {
-      question: 'Can you work on collaborative projects?',
-      answer: 'Absolutely! I have experience working in teams and have participated in hackathons. I enjoy collaborative environments where I can contribute my skills while learning from others.'
+      question: 'Are you available for full-time, remote, or contract roles?',
+      answer: 'Yes! As a 2025 B.Tech ECE graduate from Techno India University, I am an immediate joiner with 100% dedicated availability for full-time, remote, contract, and AI/data or engineering roles.'
     },
     {
-      question: 'What is your expected graduation date?',
-      answer: 'I am expected to graduate with my B.Tech in Electronics and Communication from Techno India University in 2025.'
-    },
-    {
-      question: 'Do you have experience with real-world projects?',
-      answer: 'Yes, I have worked on several projects including a Movie Review App and Malware Detection using ML. I have also participated in the Smart India Hackathon and completed industry simulations with Accenture.'
+      question: 'Which languages can you work in?',
+      answer: 'I have native reading, writing, proofreading, and Unicode typing fluency in Hindi (Devanagari script) and full professional fluency in English.'
     }
   ];
 
@@ -30,51 +28,63 @@ export default function ContactPage() {
     <div className="pt-20">
       <Contact />
       
-      <section className="section-padding bg-gray-50 dark:bg-gray-900">
+      {/* FAQs */}
+      <section className="section-padding relative z-10">
         <div className="container-custom">
-          <AnimatedSection>
-            <h2 className="text-3xl md:text-4xl font-bold text-center mb-4">Frequently Asked Questions</h2>
-            <p className="text-center text-gray-600 dark:text-gray-400 mb-12 max-w-2xl mx-auto">
-              Here are answers to some common questions about my services and process.
-            </p>
-          </AnimatedSection>
+          <SectionHeading
+            title="Frequently Asked Questions"
+            subtitle="Quick answers about my background, availability, and product work."
+          />
           
-          <div className="max-w-3xl mx-auto">
+          <div className="max-w-3xl mx-auto space-y-4">
             {faqs.map((faq, index) => (
-              <AnimatedSection key={index} delay={index * 0.1}>
-                <div className="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-lg mb-6">
-                  <div className="flex items-start">
-                    <div className="p-2 bg-primary/10 text-primary rounded-lg mr-4 mt-1">
-                      <FiMessageSquare size={18} />
+              <motion.div
+                key={index}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: index * 0.08, duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+              >
+                <div className="glass-card p-6 rounded-2xl hover:bg-white/[0.06] transition-colors">
+                  <div className="flex items-start gap-4">
+                    <div className="p-2 rounded-lg bg-violet-500/10 border border-violet-500/20 mt-0.5">
+                      <MessageCircle size={16} className="text-violet-400" />
                     </div>
                     <div>
-                      <h3 className="text-xl font-bold mb-2">{faq.question}</h3>
-                      <p className="text-gray-600 dark:text-gray-400">{faq.answer}</p>
+                      <h3 className="text-lg font-bold font-display mb-2 text-foreground">{faq.question}</h3>
+                      <p className="text-sm text-muted-foreground leading-relaxed">{faq.answer}</p>
                     </div>
                   </div>
                 </div>
-              </AnimatedSection>
+              </motion.div>
             ))}
           </div>
         </div>
       </section>
       
-      <section className="section-padding">
+      {/* CTA */}
+      <section className="section-padding relative z-10">
         <div className="container-custom">
-          <AnimatedSection>
-            <div className="bg-primary/10 dark:bg-primary/5 rounded-lg p-8 text-center max-w-3xl mx-auto">
-              <h2 className="text-2xl md:text-3xl font-bold mb-4">Let's Connect!</h2>
-              <p className="text-gray-600 dark:text-gray-400 mb-6">
-                Feel free to reach out for collaboration opportunities, questions about my projects, or just to say hello.
-              </p>
-              <a 
-                href="mailto:tiwariadarsh1804@gmail.com" 
-                className="btn btn-primary inline-flex items-center"
-              >
-                Email Me <FiMessageSquare className="ml-2" />
-              </a>
-            </div>
-          </AnimatedSection>
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+            className="max-w-3xl mx-auto text-center glass-card p-10 rounded-2xl"
+          >
+            <h2 className="text-2xl md:text-3xl font-bold font-display mb-4">
+              <span className="gradient-text">Let&apos;s Connect!</span>
+            </h2>
+            <p className="text-muted-foreground mb-6 max-w-lg mx-auto">
+              Reach out for job opportunities, collaborations, questions about SEMDIV, or just to say hello.
+            </p>
+            <a 
+              href={`mailto:${PROFILE.email}`} 
+              className="btn btn-primary inline-flex items-center gap-2 group"
+            >
+              Email Me <Mail size={16} className="group-hover:translate-x-0.5 transition-transform" />
+            </a>
+          </motion.div>
         </div>
       </section>
     </div>

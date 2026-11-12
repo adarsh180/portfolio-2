@@ -1,67 +1,94 @@
-import { FiExternalLink } from 'react-icons/fi';
-import AnimatedSection from './AnimatedSection';
+import { motion } from 'framer-motion';
+import { ExternalLink, Layers } from 'lucide-react';
+import GlowCard from './ui/GlowCard';
+import SectionHeading from './ui/SectionHeading';
+import { PROFILE } from '../utils/portfolioData';
 
 const achievements = [
   {
+    isLucide: true,
+    lucideIcon: <Layers size={26} className="text-white" />,
+    title: 'SEMDIV Flagship Project',
+    description: 'Built an end-to-end browser workspace for PDF region markup, 14-language Indian OCR, structured documents, spreadsheets, and media.',
+    link: PROFILE.semdivUrl,
+    linkText: 'Launch Live App',
+    accentColor: 'text-cyan-400',
+    gradient: 'from-cyan-600 to-blue-600'
+  },
+  {
     icon: '/images/icon/leetcode.png',
     title: 'LeetCode Profile',
-    description: 'Solving algorithmic problems and improving problem-solving skills through consistent practice.',
-    link: 'https://leetcode.com/u/tiwariadarsh1804/',
-    linkText: 'View Profile',
-    color: 'from-orange-500 to-yellow-500'
+    description: 'Solving algorithmic problems and strengthening data structures & problem-solving skills through consistent practice.',
+    link: PROFILE.leetcode,
+    linkText: 'View LeetCode',
+    accentColor: 'text-amber-400',
+    gradient: 'from-amber-600 to-orange-600'
   },
   {
     icon: '/images/icon/hackerrank.png',
     title: 'HackerRank Profile',
-    description: 'Demonstrating coding proficiency across multiple programming languages and domains.',
-    link: 'https://www.hackerrank.com/profile/tiwariadarsh1804',
-    linkText: 'View Profile',
-    color: 'from-green-500 to-emerald-500'
+    description: 'Demonstrating coding proficiency across C++, Python, Java, SQL, and problem-solving domains.',
+    link: PROFILE.hackerrank,
+    linkText: 'View HackerRank',
+    accentColor: 'text-emerald-400',
+    gradient: 'from-emerald-600 to-green-600'
   },
   {
     icon: '/images/icon/certificate.png',
-    title: 'Certifications',
-    description: 'Professional certifications and course completions showcasing continuous learning and skill development.',
-    link: 'https://drive.google.com/drive/folders/1Mb1DlSn5rkdGfmB6T5D-X-7V_Ibn1J8f?usp=sharing',
+    title: 'Verified Certificates',
+    description: 'AWS AI/ML, Accenture Data Analytics, SAP S/4HANA, and Smart India Hackathon 2023 credentials.',
+    link: PROFILE.certificatesUrl,
     linkText: 'View Certificates',
-    color: 'from-blue-500 to-purple-500'
+    accentColor: 'text-violet-400',
+    gradient: 'from-violet-600 to-purple-600'
   }
 ];
 
 export default function Achievements() {
   return (
-    <section id="achievements" className="section-padding bg-gray-50 dark:bg-gray-900">
+    <section id="achievements" className="section-padding relative z-10">
       <div className="container-custom">
-        <AnimatedSection>
-          <h2 className="text-3xl md:text-4xl font-bold text-center mb-4">Achievements & Profiles</h2>
-          <p className="text-center text-gray-600 dark:text-gray-400 mb-12 max-w-2xl mx-auto">
-            My coding journey and professional development through competitive programming and continuous learning.
-          </p>
-        </AnimatedSection>
+        <SectionHeading
+          title="Achievements & Profiles"
+          subtitle="Flagship live work, competitive coding accounts, and verified certifications."
+        />
         
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-5">
           {achievements.map((achievement, index) => (
-            <AnimatedSection key={index} delay={0.1 * index}>
-              <div className="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-lg hover:shadow-xl transition-all duration-300 h-full flex flex-col">
-                <div className={`p-4 bg-gradient-to-r ${achievement.color} rounded-lg inline-block mb-4 text-white w-fit`}>
-                  <img 
-                    src={achievement.icon} 
-                    alt={achievement.title}
-                    className="w-8 h-8 object-contain"
-                  />
+            <motion.div
+              key={index}
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-80px" }}
+              transition={{ delay: 0.1 * index, duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+            >
+              <GlowCard className="h-full">
+                <div className="flex flex-col h-full">
+                  <div className={`p-3 bg-gradient-to-br ${achievement.gradient} rounded-xl inline-block mb-4 w-fit shadow-lg`}>
+                    {achievement.isLucide ? (
+                      achievement.lucideIcon
+                    ) : (
+                      <img 
+                        src={achievement.icon} 
+                        alt={achievement.title}
+                        className="w-7 h-7 object-contain brightness-0 invert"
+                      />
+                    )}
+                  </div>
+                  <h3 className="text-xl font-bold font-display mb-3 text-foreground">{achievement.title}</h3>
+                  <p className="text-sm text-muted-foreground mb-6 flex-grow leading-relaxed">{achievement.description}</p>
+                  <a 
+                    href={achievement.link}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className={`inline-flex items-center gap-2 text-sm font-medium ${achievement.accentColor} hover:opacity-80 transition-opacity group`}
+                  >
+                    {achievement.linkText} 
+                    <ExternalLink size={14} className="group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
+                  </a>
                 </div>
-                <h3 className="text-xl font-bold mb-3">{achievement.title}</h3>
-                <p className="text-gray-600 dark:text-gray-400 mb-6 flex-grow">{achievement.description}</p>
-                <a 
-                  href={achievement.link}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center text-primary hover:underline font-medium"
-                >
-                  {achievement.linkText} <FiExternalLink className="ml-2" />
-                </a>
-              </div>
-            </AnimatedSection>
+              </GlowCard>
+            </motion.div>
           ))}
         </div>
       </div>
