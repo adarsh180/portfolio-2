@@ -9,7 +9,7 @@ export default function About() {
     { icon: <GraduationCap size={20} className="text-violet-400" />, value: "B.Tech '25", label: 'ECE Graduate' },
     { icon: <Award size={20} className="text-fuchsia-400" />, value: '7.23', label: 'CGPA' },
     { icon: <Code2 size={20} className="text-cyan-400" />, value: '7+', label: 'Live Projects' },
-    { icon: <BadgeCheck size={20} className="text-emerald-400" />, value: '4+', label: 'Certifications' },
+    { icon: <BadgeCheck size={20} className="text-emerald-400" />, value: '5+', label: 'Certifications' },
   ];
 
   return (
@@ -17,7 +17,7 @@ export default function About() {
       <div className="container-custom">
         <SectionHeading 
           title="About Me" 
-          subtitle="2025 B.Tech graduate focused on full-stack web applications, document & OCR tools, and AI/ML."
+          subtitle="2025 B.Tech graduate and certified former PW Campus Ambassador focused on full-stack, OCR & AI/ML."
         />
         
         <div className="grid md:grid-cols-2 gap-12 lg:gap-16 items-center">
@@ -55,7 +55,16 @@ export default function About() {
               Full-Stack Developer · <span className="gradient-text">AI/ML &amp; OCR Builder</span>
             </h3>
             <p className="text-muted-foreground mb-4 leading-relaxed">
-              I&apos;m a 2025 B.Tech graduate in Electronics &amp; Communication Engineering from Techno India University, Kolkata. I enjoy turning complex problems into clean, practical web applications — from{' '}
+              I&apos;m a 2025 B.Tech graduate in Electronics &amp; Communication Engineering from Techno India University, Kolkata, and a certified former{' '}
+              <a
+                href={PROFILE.pwCertificateUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-cyan-400 hover:text-cyan-300 font-medium underline underline-offset-4"
+              >
+                Physics Wallah (PW) Campus Ambassador
+              </a>{' '}
+              (served till Nov 2025). I love turning complex problems into clean, practical web applications — including{' '}
               <a
                 href={PROFILE.semdivUrl}
                 target="_blank"
@@ -64,10 +73,10 @@ export default function About() {
               >
                 SEMDIV &amp; Folio Scan
               </a>{' '}
-              (a browser office, PDF region markup, and 14-language Indian OCR project) to healthcare AI and e-commerce platforms.
+              (browser PDF region markup &amp; 14-language Indian OCR).
             </p>
             <p className="text-muted-foreground mb-8 leading-relaxed">
-              With hands-on experience across Next.js, React, TypeScript, Python, PostgreSQL, and 100K+ record dataset curation (<a href={PROFILE.github} target="_blank" rel="noopener noreferrer" className="text-violet-400 hover:text-violet-300">{PROFILE.githubHandle}</a>), I bring patience, strong attention to detail, and immediate availability to contribute to impactful teams.
+              With hands-on experience across Next.js, React, TypeScript, Python, PostgreSQL, and 100K+ record dataset curation (<a href={PROFILE.github} target="_blank" rel="noopener noreferrer" className="text-violet-400 hover:text-violet-300">{PROFILE.githubHandle}</a>), I bring strong leadership, attention to detail, and immediate availability to contribute to impactful teams.
             </p>
             
             {/* Stats Grid */}

@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import { ExternalLink, Layers } from 'lucide-react';
+import { ExternalLink, Award } from 'lucide-react';
 import GlowCard from './ui/GlowCard';
 import SectionHeading from './ui/SectionHeading';
 import { PROFILE } from '../utils/portfolioData';
@@ -7,11 +7,11 @@ import { PROFILE } from '../utils/portfolioData';
 const achievements = [
   {
     isLucide: true,
-    lucideIcon: <Layers size={26} className="text-white" />,
-    title: 'SEMDIV Flagship Project',
-    description: 'Built an end-to-end browser workspace for PDF region markup, 14-language Indian OCR, structured documents, spreadsheets, and media.',
-    link: PROFILE.semdivUrl,
-    linkText: 'Launch Live App',
+    lucideIcon: <Award size={26} className="text-white" />,
+    title: 'PW Campus Ambassador',
+    description: 'Certified Physics Wallah (PW) Campus Ambassador (till Nov 2025), recognized for leadership skills and guiding & inspiring peers.',
+    link: PROFILE.pwCertificateUrl,
+    linkText: 'View PW Certificate',
     accentColor: 'text-cyan-400',
     gradient: 'from-cyan-600 to-blue-600'
   },
@@ -35,10 +35,10 @@ const achievements = [
   },
   {
     icon: '/images/icon/certificate.png',
-    title: 'Verified Certificates',
-    description: 'AWS AI/ML, Accenture Data Analytics, SAP S/4HANA, and Smart India Hackathon 2023 credentials.',
+    title: 'All Verified Certificates',
+    description: 'PW Campus Ambassador, AWS AI/ML, Accenture Data Analytics, SAP S/4HANA, and Smart India Hackathon 2023 credentials.',
     link: PROFILE.certificatesUrl,
-    linkText: 'View Certificates',
+    linkText: 'View All Certificates',
     accentColor: 'text-violet-400',
     gradient: 'from-violet-600 to-purple-600'
   }
@@ -50,7 +50,7 @@ export default function Achievements() {
       <div className="container-custom">
         <SectionHeading
           title="Achievements & Profiles"
-          subtitle="Flagship live work, competitive coding accounts, and verified certifications."
+          subtitle="Physics Wallah Campus Ambassador recognition, competitive coding profiles, and verified certifications."
         />
         
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-5">

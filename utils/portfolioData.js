@@ -9,6 +9,7 @@ export const PROFILE = {
   portfolioUrl: 'https://adarsh-tiwari-portfolio-sable.vercel.app/',
   semdivUrl: 'https://www.semdiv.com',
   semdivFolioUrl: 'https://www.semdiv.com/app/folio/scan',
+  pwCertificateUrl: 'https://drive.google.com/file/d/1yGjC3kPh4enCSPZGvz6uh-IM1g8aKA1C/view?usp=sharing',
   leetcode: 'https://leetcode.com/u/tiwariadarsh1804/',
   hackerrank: 'https://www.hackerrank.com/profile/tiwariadarsh1804',
   certificatesUrl: 'https://drive.google.com/drive/folders/1Mb1DlSn5rkdGfmB6T5D-X-7V_Ibn1J8f?usp=sharing',
@@ -105,6 +106,15 @@ export const PROJECTS_DATA = [
 
 export const WORK_EXPERIENCE = [
   {
+    title: 'Campus Ambassador',
+    company: 'Physics Wallah (PW)',
+    period: 'Till Nov 2025',
+    link: 'https://drive.google.com/file/d/1yGjC3kPh4enCSPZGvz6uh-IM1g8aKA1C/view?usp=sharing',
+    linkLabel: 'Physics Wallah (PW) · View Certificate',
+    description:
+      'Recognized by PW Project Leadership (Mr. Balajee Singh, Head of Project) for strong leadership skills, guiding and inspiring student peers, coordinating campus educational outreach, and communicating bilingual (Hindi & English) materials with consistency.',
+  },
+  {
     title: 'Data Analytics & Visualization Simulation',
     company: 'Accenture North America (Remote)',
     period: 'Completed',
@@ -117,6 +127,7 @@ export const WORK_EXPERIENCE = [
     company: 'Personal & Open-Source Portfolio (@adarsh180)',
     period: 'Hands-On Engineering',
     link: 'https://github.com/adarsh180',
+    linkLabel: 'Open-Source & Product Portfolio (@adarsh180)',
     description:
       'Built and deployed end-to-end web, OCR, and AI projects including SEMDIV & Folio Scan (14-language Indian OCR, bounding-box PDF markup & browser office tools), Arogya Sahayak (Medical AI), AccidentAware (Next.js + PostgreSQL + Razorpay), and 100K+ record ML pipelines.',
   },
@@ -124,21 +135,31 @@ export const WORK_EXPERIENCE = [
 
 export const CERTIFICATIONS_LIST = [
   {
+    title: 'PW Campus Ambassador Certificate',
+    org: 'Physics Wallah (PW)',
+    year: 'Nov 2025',
+    certLink: 'https://drive.google.com/file/d/1yGjC3kPh4enCSPZGvz6uh-IM1g8aKA1C/view?usp=sharing',
+    desc: 'Awarded by Physics Wallah Project Leadership for leadership skills, peer mentoring, and inspiring students across campus initiatives.',
+  },
+  {
     title: 'Smart India Hackathon (SIH) 2023 — Team Lead',
     org: 'Government of India',
     year: '2023',
+    certLink: 'https://drive.google.com/drive/folders/1Mb1DlSn5rkdGfmB6T5D-X-7V_Ibn1J8f?usp=sharing',
     desc: 'Qualified and led the team in the 1st Round of Smart India Hackathon 2023 through structured engineering and problem documentation.',
   },
   {
     title: 'AWS AI/ML Specialization',
     org: 'Amazon Web Services',
     year: '2023',
+    certLink: 'https://drive.google.com/drive/folders/1Mb1DlSn5rkdGfmB6T5D-X-7V_Ibn1J8f?usp=sharing',
     desc: 'Built, trained, and deployed scalable machine learning workflows and dataset pipelines using AWS SageMaker.',
   },
   {
     title: 'Introduction to SAP S/4HANA Development',
     org: 'Techno India University',
     year: '2022',
+    certLink: 'https://drive.google.com/drive/folders/1Mb1DlSn5rkdGfmB6T5D-X-7V_Ibn1J8f?usp=sharing',
     desc: 'Conducted by Prof. Rajdeep Ghatak at Techno India University covering enterprise data workflows and ERP development.',
   },
 ];

@@ -1,9 +1,9 @@
 import Skills from '../components/Skills';
 import { motion } from 'framer-motion';
-import { Code2, Layout, Wrench, Database, Monitor, Users } from 'lucide-react';
+import { Code2, Layout, Wrench, Database, Monitor, Users, ExternalLink } from 'lucide-react';
 import GlowCard from '../components/ui/GlowCard';
 import SectionHeading from '../components/ui/SectionHeading';
-import { CERTIFICATIONS_LIST } from '../utils/portfolioData';
+import { CERTIFICATIONS_LIST, PROFILE } from '../utils/portfolioData';
 
 export default function SkillsPage() {
   const skillCategories = [
@@ -39,9 +39,17 @@ export default function SkillsPage() {
     },
     {
       icon: <Users size={20} className="text-rose-400" />,
-      title: 'Languages & Work Ethic',
-      description: 'Bilingual communication, proofreading precision, and team leadership.',
-      skills: ['Hindi — Native (Devanagari Read/Write/Type)', 'English — Fluent Professional', 'High-Precision Proofreading & QA', 'Team Leadership (SIH 2023)', 'Consistent Guideline Execution']
+      title: 'Leadership, Languages & QA',
+      description: 'PW Campus Ambassador leadership, bilingual fluency, and proofreading precision.',
+      skills: [
+        'PW Campus Ambassador Leadership (Till Nov 2025)',
+        'Hindi — Native (Devanagari Read/Write/Type)',
+        'English — Fluent Professional',
+        'High-Precision Proofreading & Content Review',
+        'Team Leadership (Smart India Hackathon 2023)'
+      ],
+      badgeLink: PROFILE.pwCertificateUrl,
+      badgeLabel: 'View PW Ambassador Certificate'
     }
   ];
 
@@ -54,7 +62,7 @@ export default function SkillsPage() {
         <div className="container-custom">
           <SectionHeading
             title="Skill Categories"
-            subtitle="Detailed breakdown of technical capabilities, document/OCR expertise, and spoken languages."
+            subtitle="Detailed breakdown of technical capabilities, document/OCR expertise, leadership, and spoken languages."
           />
           
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-5">
@@ -67,7 +75,7 @@ export default function SkillsPage() {
                 transition={{ delay: 0.05 * index, duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
               >
                 <GlowCard className="h-full">
-                  <div>
+                  <div className="flex flex-col h-full">
                     <div className="flex items-center gap-3 mb-3">
                       <div className="p-2 rounded-lg bg-white/[0.05] border border-white/[0.06]">
                         {category.icon}
@@ -75,14 +83,26 @@ export default function SkillsPage() {
                       <h3 className="text-lg font-bold font-display text-foreground">{category.title}</h3>
                     </div>
                     <p className="text-sm text-muted-foreground mb-4 leading-relaxed">{category.description}</p>
-                    <ul className="space-y-2">
+                    <ul className="space-y-2 flex-grow">
                       {category.skills.map((skill, idx) => (
                         <li key={idx} className="flex items-center gap-2 text-sm text-foreground">
-                          <span className="w-1.5 h-1.5 bg-violet-500 rounded-full" />
+                          <span className="w-1.5 h-1.5 bg-violet-500 rounded-full flex-shrink-0" />
                           {skill}
                         </li>
                       ))}
                     </ul>
+                    {category.badgeLink && (
+                      <div className="mt-4 pt-3 border-t border-white/[0.06]">
+                        <a
+                          href={category.badgeLink}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="inline-flex items-center gap-1.5 text-xs font-medium text-cyan-400 hover:text-cyan-300 transition-colors"
+                        >
+                          {category.badgeLabel} <ExternalLink size={13} />
+                        </a>
+                      </div>
+                    )}
                   </div>
                 </GlowCard>
               </motion.div>
@@ -95,8 +115,8 @@ export default function SkillsPage() {
       <section className="section-padding relative z-10">
         <div className="container-custom">
           <SectionHeading
-            title="Certifications & Honours"
-            subtitle="Verified training and national hackathon recognition."
+            title="Certifications & Verified Credentials"
+            subtitle="Physics Wallah Campus Ambassador recognition, national hackathon honours, and cloud certifications."
           />
           
           <div className="max-w-3xl mx-auto space-y-4">
@@ -109,10 +129,22 @@ export default function SkillsPage() {
                 transition={{ delay: index * 0.1, duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
               >
                 <div className="glass-card p-6 rounded-2xl hover:bg-white/[0.06] transition-colors">
-                  <h3 className="text-lg font-bold font-display text-foreground mb-1">{cert.title}</h3>
+                  <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 mb-1">
+                    <h3 className="text-lg font-bold font-display text-foreground">{cert.title}</h3>
+                    {cert.certLink && (
+                      <a
+                        href={cert.certLink}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center gap-1.5 text-xs font-medium px-3 py-1 rounded-full bg-cyan-500/10 border border-cyan-500/25 text-cyan-400 hover:bg-cyan-500/20 transition-colors w-fit"
+                      >
+                        View Certificate <ExternalLink size={12} />
+                      </a>
+                    )}
+                  </div>
                   <p className="text-violet-400 text-sm mb-1">{cert.org}</p>
                   <p className="text-sm text-muted-foreground mb-2 leading-relaxed">{cert.desc}</p>
-                  <div className="text-xs text-muted-foreground/70">Completed in {cert.year}</div>
+                  <div className="text-xs text-muted-foreground/70">{cert.year}</div>
                 </div>
               </motion.div>
             ))}

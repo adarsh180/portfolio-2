@@ -13,8 +13,8 @@ export default function AboutPage() {
       <section className="section-padding relative z-10">
         <div className="container-custom">
           <SectionHeading 
-            title="Work Experience"
-            subtitle="Product engineering, independent software development, and data analytics experience."
+            title="Experience & Campus Leadership"
+            subtitle="Campus leadership at Physics Wallah (PW), data analytics training, and hands-on software engineering."
           />
           
           <div className="max-w-3xl mx-auto">
@@ -40,7 +40,7 @@ export default function AboutPage() {
                     rel="noopener noreferrer"
                     className="inline-flex items-center gap-1.5 text-cyan-400 hover:text-cyan-300 text-sm mb-1.5 transition-colors"
                   >
-                    {work.company} <ExternalLink size={13} />
+                    {work.linkLabel || work.company} <ExternalLink size={13} />
                   </a>
                 ) : (
                   <p className="text-cyan-400 text-sm mb-1.5">{work.company}</p>
@@ -57,7 +57,7 @@ export default function AboutPage() {
         <div className="container-custom">
           <SectionHeading 
             title="Certifications & Achievements"
-            subtitle="Hackathon leadership, cloud AI/ML training, and enterprise software courses."
+            subtitle="Physics Wallah recognition, national hackathon leadership, and cloud AI/ML certifications."
           />
           
           <div className="max-w-3xl mx-auto">
@@ -76,7 +76,19 @@ export default function AboutPage() {
                   <span className="text-sm text-muted-foreground">{exp.year}</span>
                 </div>
                 <h3 className="text-lg font-bold font-display text-foreground">{exp.title}</h3>
-                <p className="text-violet-400 text-sm mb-1">{exp.org}</p>
+                <div className="flex flex-wrap items-center gap-3 mb-1">
+                  <span className="text-violet-400 text-sm">{exp.org}</span>
+                  {exp.certLink && (
+                    <a
+                      href={exp.certLink}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-1 text-xs font-medium text-cyan-400 hover:text-cyan-300 transition-colors"
+                    >
+                      Verify Certificate <ExternalLink size={12} />
+                    </a>
+                  )}
+                </div>
                 <p className="text-sm text-muted-foreground leading-relaxed">{exp.desc}</p>
               </motion.div>
             ))}
