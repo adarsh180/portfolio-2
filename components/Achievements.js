@@ -1,94 +1,119 @@
-import { motion } from 'framer-motion';
-import { ExternalLink, Award } from 'lucide-react';
-import GlowCard from './ui/GlowCard';
+import { ArrowUpRight } from 'lucide-react';
 import SectionHeading from './ui/SectionHeading';
+import {
+  PhysicsWallahMark,
+  LeetCodeMark,
+  HackerRankMark,
+  CredentialVaultMark,
+} from './ui/BrandIcons';
 import { PROFILE } from '../utils/portfolioData';
 
-const achievements = [
+const RECOGNITION_ITEMS = [
   {
-    isLucide: true,
-    lucideIcon: <Award size={26} className="text-white" />,
+    code: 'REC-01',
+    period: 'Till Nov 2025',
+    icon: <PhysicsWallahMark className="w-5 h-5" />,
     title: 'PW Campus Ambassador',
-    description: 'Certified Physics Wallah (PW) Campus Ambassador (till Nov 2025), recognized for leadership skills and guiding & inspiring peers.',
+    issuer: 'Physics Wallah (PW)',
+    description:
+      'Certified Campus Ambassador recognized by PW Project Leadership (Mr. Balajee Singh) for peer mentoring, student leadership, and bilingual outreach.',
     link: PROFILE.pwCertificateUrl,
-    linkText: 'View PW Certificate',
-    accentColor: 'text-cyan-400',
-    gradient: 'from-cyan-600 to-blue-600'
+    linkLabel: 'Verified Certificate',
+    verified: true,
   },
   {
-    icon: '/images/icon/leetcode.png',
+    code: 'REC-02',
+    period: 'Algorithmic Practice',
+    icon: <LeetCodeMark className="w-5 h-5" />,
     title: 'LeetCode Profile',
-    description: 'Solving algorithmic problems and strengthening data structures & problem-solving skills through consistent practice.',
+    issuer: '@tiwariadarsh1804',
+    description:
+      'Consistent algorithmic problem-solving across arrays, trees, dynamic programming, graph traversal, and complexity optimization.',
     link: PROFILE.leetcode,
-    linkText: 'View LeetCode',
-    accentColor: 'text-amber-400',
-    gradient: 'from-amber-600 to-orange-600'
+    linkLabel: 'Open LeetCode',
+    verified: false,
   },
   {
-    icon: '/images/icon/hackerrank.png',
+    code: 'REC-03',
+    period: 'Domain Proficiency',
+    icon: <HackerRankMark className="w-5 h-5" />,
     title: 'HackerRank Profile',
-    description: 'Demonstrating coding proficiency across C++, Python, Java, SQL, and problem-solving domains.',
+    issuer: '@tiwariadarsh1804',
+    description:
+      'Verified programming assessments across C++, Python, Java, SQL queries, and core data structures.',
     link: PROFILE.hackerrank,
-    linkText: 'View HackerRank',
-    accentColor: 'text-emerald-400',
-    gradient: 'from-emerald-600 to-green-600'
+    linkLabel: 'Open HackerRank',
+    verified: false,
   },
   {
-    icon: '/images/icon/certificate.png',
-    title: 'All Verified Certificates',
-    description: 'PW Campus Ambassador, AWS AI/ML, Accenture Data Analytics, SAP S/4HANA, and Smart India Hackathon 2023 credentials.',
+    code: 'REC-04',
+    period: '2022 – 2025',
+    icon: <CredentialVaultMark className="w-5 h-5" />,
+    title: 'Credential Repository',
+    issuer: 'SIH 2023 · AWS · Accenture · SAP',
+    description:
+      'Complete folder of verified certificates including Smart India Hackathon 2023 Team Lead, AWS AI/ML SageMaker, Accenture Data Analytics, and SAP S/4HANA.',
     link: PROFILE.certificatesUrl,
-    linkText: 'View All Certificates',
-    accentColor: 'text-violet-400',
-    gradient: 'from-violet-600 to-purple-600'
-  }
+    linkLabel: 'Browse All Credentials',
+    verified: true,
+  },
 ];
 
 export default function Achievements() {
   return (
-    <section id="achievements" className="section-padding relative z-10">
-      <div className="container-custom">
+    <section id="recognition" className="section-editorial">
+      <div className="container-editorial">
         <SectionHeading
-          title="Achievements & Profiles"
-          subtitle="Physics Wallah Campus Ambassador recognition, competitive coding profiles, and verified certifications."
+          indexLabel="05 / Recognition"
+          title="Leadership, Coding Profiles & Credentials"
+          subtitle="Verified campus leadership with Physics Wallah, competitive programming profiles, and industry certifications."
         />
-        
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-5">
-          {achievements.map((achievement, index) => (
-            <motion.div
-              key={index}
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-80px" }}
-              transition={{ delay: 0.1 * index, duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5 items-stretch">
+          {RECOGNITION_ITEMS.map((item) => (
+            <article
+              key={item.code}
+              className="arch-card-interactive p-6 flex flex-col justify-between h-full"
             >
-              <GlowCard className="h-full">
-                <div className="flex flex-col h-full">
-                  <div className={`p-3 bg-gradient-to-br ${achievement.gradient} rounded-xl inline-block mb-4 w-fit shadow-lg`}>
-                    {achievement.isLucide ? (
-                      achievement.lucideIcon
-                    ) : (
-                      <img 
-                        src={achievement.icon} 
-                        alt={achievement.title}
-                        className="w-7 h-7 object-contain brightness-0 invert"
-                      />
-                    )}
+              <div>
+                <div className="flex items-center justify-between gap-2 mb-5">
+                  <div className="w-10 h-10 rounded-lg border border-line bg-surface-elevated flex items-center justify-center text-fg">
+                    {item.icon}
                   </div>
-                  <h3 className="text-xl font-bold font-display mb-3 text-foreground">{achievement.title}</h3>
-                  <p className="text-sm text-muted-foreground mb-6 flex-grow leading-relaxed">{achievement.description}</p>
-                  <a 
-                    href={achievement.link}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className={`inline-flex items-center gap-2 text-sm font-medium ${achievement.accentColor} hover:opacity-80 transition-opacity group`}
+                  <span
+                    className={`font-mono text-[11px] ${
+                      item.verified ? 'text-signal font-medium' : 'text-fg-tertiary'
+                    }`}
                   >
-                    {achievement.linkText} 
-                    <ExternalLink size={14} className="group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
-                  </a>
+                    {item.period}
+                  </span>
                 </div>
-              </GlowCard>
-            </motion.div>
+
+                <div className="font-mono text-xs text-fg-tertiary mb-1">{item.issuer}</div>
+                <h3 className="text-base sm:text-lg font-semibold tracking-[-0.02em] text-fg mb-2.5">
+                  {item.title}
+                </h3>
+                <p className="text-sm text-fg-secondary leading-relaxed mb-6">
+                  {item.description}
+                </p>
+              </div>
+
+              <div className="pt-4 border-t border-line mt-auto">
+                <a
+                  href={item.link}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-1.5 font-mono text-xs font-medium text-fg hover:text-signal transition-colors group"
+                >
+                  <span>{item.linkLabel}</span>
+                  <ArrowUpRight
+                    size={14}
+                    strokeWidth={1.5}
+                    className="transition-transform duration-150 group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
+                  />
+                </a>
+              </div>
+            </article>
           ))}
         </div>
       </div>

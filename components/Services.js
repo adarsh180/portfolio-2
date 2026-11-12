@@ -1,65 +1,106 @@
-import { motion } from 'framer-motion';
-import { Monitor, FileText, BrainCircuit, Layers, ShieldCheck, TrendingUp } from 'lucide-react';
-import GlowCard from './ui/GlowCard';
+import {
+  Terminal,
+  ScanText,
+  Database,
+  LayoutGrid,
+  Shield,
+  Gauge,
+} from 'lucide-react';
 import SectionHeading from './ui/SectionHeading';
 
-const services = [
+const CAPABILITIES = [
   {
-    icon: <Monitor size={20} className="text-violet-400" />,
-    title: 'Full-Stack Web Engineering',
-    description: 'Building fast, responsive, production-grade web applications with Next.js, React, TypeScript, and PostgreSQL.'
+    code: 'CAP-01',
+    icon: <Terminal size={18} strokeWidth={1.5} />,
+    title: 'Full-Stack Web Systems',
+    description:
+      'Production web applications architected with Next.js, React, TypeScript, Prisma, and PostgreSQL with clean API boundaries.',
+    specs: ['Next.js', 'TypeScript', 'PostgreSQL'],
   },
   {
-    icon: <FileText size={20} className="text-fuchsia-400" />,
-    title: 'Document, PDF & OCR Systems',
-    description: 'Designing bounding-box annotation tools, 14-language Indian OCR pipelines, structured tables, and local-first PDF engines.'
+    code: 'CAP-02',
+    icon: <ScanText size={18} strokeWidth={1.5} />,
+    title: 'Document Vision & Indian OCR',
+    description:
+      'Normalized 2D region bounding boxes, reading-order extraction, perspective deskewing, and 14-language Indic & English OCR.',
+    specs: ['14 Scripts', '2D BBox', 'PDF Engine'],
   },
   {
-    icon: <BrainCircuit size={20} className="text-cyan-400" />,
-    title: 'AI/ML & Data Curation',
-    description: 'Training classification models, cleaning 100K+ record datasets, and executing verbatim regional-language ground-truth QA.'
+    code: 'CAP-03',
+    icon: <Database size={18} strokeWidth={1.5} />,
+    title: 'ML Pipelines & Data Curation',
+    description:
+      'Supervised classification across 100K+ structured records, multi-dataset schema cleaning, and verbatim regional-language QA.',
+    specs: ['Scikit-Learn', 'XGBoost', 'Ground-Truth QA'],
   },
   {
-    icon: <Layers size={20} className="text-emerald-400" />,
-    title: 'UI/UX & Interactive Motion',
-    description: 'Crafting polished interfaces with intuitive layouts, fluid animations, dark-mode design systems, and crisp typography.'
+    code: 'CAP-04',
+    icon: <LayoutGrid size={18} strokeWidth={1.5} />,
+    title: 'Design Systems & Interfaces',
+    description:
+      'Accessible dual-theme component libraries, editorial typography, keyboard-friendly controls, and responsive bento layouts.',
+    specs: ['TailwindCSS', 'WCAG Contrast', 'Responsive UI'],
   },
   {
-    icon: <ShieldCheck size={20} className="text-amber-400" />,
-    title: 'Privacy-First Architecture',
-    description: 'Implementing on-device WebAssembly processing, SHA-256 tamper-evident sealing, and client-side AES-256 encryption.'
+    code: 'CAP-05',
+    icon: <Shield size={18} strokeWidth={1.5} />,
+    title: 'Local-First & Cryptographic Privacy',
+    description:
+      'On-device WebAssembly & WebCodecs media processing paired with SHA-256 document sealing and client-side AES-256 encryption.',
+    specs: ['WebAssembly', 'SHA-256', 'WebCodecs'],
   },
   {
-    icon: <TrendingUp size={20} className="text-rose-400" />,
-    title: 'SEO & Performance Optimization',
-    description: 'Optimizing Core Web Vitals, structured JSON-LD metadata, and sub-second page delivery on modern cloud infrastructure.'
-  }
+    code: 'CAP-06',
+    icon: <Gauge size={18} strokeWidth={1.5} />,
+    title: 'Deployment & Performance',
+    description:
+      'CI/CD delivery on Vercel and cloud platforms with Core Web Vitals optimization, structured metadata, and deterministic builds.',
+    specs: ['Vercel CI/CD', 'Core Web Vitals', 'Docker'],
+  },
 ];
 
 export default function Services() {
   return (
-    <section id="services" className="section-padding relative z-10">
-      <div className="container-custom">
-        <SectionHeading 
-          title="What I Do"
-          subtitle="End-to-end product engineering across web suites, document & OCR pipelines, and AI/ML."
+    <section id="capabilities" className="section-editorial">
+      <div className="container-editorial">
+        <SectionHeading
+          indexLabel="02 / Capabilities"
+          title="Core Engineering Domains"
+          subtitle="End-to-end execution across full-stack web suites, multilingual document layout engines, and structured machine learning."
         />
-        
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-5">
-          {services.map((service, index) => (
-            <motion.div
-              key={index}
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-80px" }}
-              transition={{ delay: 0.05 * index, duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+          {CAPABILITIES.map((item) => (
+            <div
+              key={item.code}
+              className="arch-card-interactive p-6 flex flex-col justify-between h-full"
             >
-              <GlowCard
-                icon={service.icon}
-                title={service.title}
-                description={service.description}
-              />
-            </motion.div>
+              <div>
+                <div className="flex items-center justify-between gap-3 mb-5">
+                  <div className="w-10 h-10 rounded-lg border border-line bg-surface-elevated flex items-center justify-center text-fg">
+                    {item.icon}
+                  </div>
+                  <span className="font-mono text-[11px] text-fg-tertiary tracking-[0.08em]">
+                    {item.code}
+                  </span>
+                </div>
+
+                <h3 className="text-lg font-semibold tracking-[-0.02em] text-fg mb-2">
+                  {item.title}
+                </h3>
+                <p className="text-sm text-fg-secondary leading-relaxed mb-6">
+                  {item.description}
+                </p>
+              </div>
+
+              <div className="pt-4 border-t border-line flex flex-wrap gap-1.5">
+                {item.specs.map((spec) => (
+                  <span key={spec} className="spec-tag">
+                    {spec}
+                  </span>
+                ))}
+              </div>
+            </div>
           ))}
         </div>
       </div>

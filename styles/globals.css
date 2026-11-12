@@ -4,174 +4,259 @@
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 240 10% 3.9%;
-    --card: 0 0% 100%;
-    --card-foreground: 240 10% 3.9%;
-    --primary: 262 83% 58%;
-    --primary-foreground: 0 0% 98%;
-    --secondary: 240 4.8% 95.9%;
-    --secondary-foreground: 240 5.9% 10%;
-    --muted: 240 4.8% 95.9%;
-    --muted-foreground: 240 3.8% 46.1%;
-    --accent: 240 4.8% 95.9%;
-    --accent-foreground: 240 5.9% 10%;
-    --border: 240 5.9% 90%;
-    --input: 240 5.9% 90%;
-    --ring: 262 83% 58%;
-    --black: #000000;
+    --bg: #FAFAFA;
+    --surface: #FFFFFF;
+    --surface-elevated: #F4F4F5;
+    --surface-muted: #EFEFF1;
+    --fg: #09090B;
+    --fg-secondary: #52525B;
+    --fg-tertiary: #71717A;
+    --border-subtle: #E4E4E7;
+    --border-strong: #C8C8D0;
+    --signal: #059669;
+    --signal-bg: rgba(5, 150, 105, 0.08);
+    --signal-border: rgba(5, 150, 105, 0.24);
+    --btn-primary-bg: #09090B;
+    --btn-primary-fg: #FAFAFA;
+    --btn-primary-hover: #27272A;
+    --header-bg: rgba(250, 250, 250, 0.86);
+    --dot-color: rgba(9, 9, 11, 0.065);
+    --card-shadow: 0 1px 2px rgba(9, 9, 11, 0.04), 0 4px 12px rgba(9, 9, 11, 0.03);
+    --card-shadow-hover: 0 6px 20px rgba(9, 9, 11, 0.07), 0 1px 3px rgba(9, 9, 11, 0.04);
+    --portrait-bg-from: #EFEFF2;
+    --portrait-bg-to: #E2E2E8;
+    color-scheme: light;
   }
 
   .dark {
-    --background: 240 10% 4%;
-    --foreground: 0 0% 95%;
-    --card: 240 10% 8%;
-    --card-foreground: 0 0% 95%;
-    --primary: 262 83% 58%;
-    --primary-foreground: 0 0% 98%;
-    --secondary: 240 3.7% 15.9%;
-    --secondary-foreground: 0 0% 98%;
-    --muted: 240 3.7% 15.9%;
-    --muted-foreground: 240 5% 64.9%;
-    --accent: 240 3.7% 15.9%;
-    --accent-foreground: 0 0% 98%;
-    --border: 240 3.7% 15.9%;
-    --input: 240 3.7% 15.9%;
-    --ring: 262 83% 58%;
-    --black: #000000;
+    --bg: #0A0A0B;
+    --surface: #141417;
+    --surface-elevated: #1B1B1F;
+    --surface-muted: #202026;
+    --fg: #F4F4F5;
+    --fg-secondary: #A1A1AA;
+    --fg-tertiary: #71717A;
+    --border-subtle: rgba(255, 255, 255, 0.085);
+    --border-strong: rgba(255, 255, 255, 0.18);
+    --signal: #10B981;
+    --signal-bg: rgba(16, 185, 129, 0.10);
+    --signal-border: rgba(16, 185, 129, 0.26);
+    --btn-primary-bg: #F4F4F5;
+    --btn-primary-fg: #09090B;
+    --btn-primary-hover: #FFFFFF;
+    --header-bg: rgba(10, 10, 11, 0.84);
+    --dot-color: rgba(255, 255, 255, 0.055);
+    --card-shadow: inset 0 1px 0 0 rgba(255, 255, 255, 0.05), 0 1px 3px rgba(0, 0, 0, 0.5);
+    --card-shadow-hover: inset 0 1px 0 0 rgba(255, 255, 255, 0.09), 0 8px 24px rgba(0, 0, 0, 0.6);
+    --portrait-bg-from: #1A1A1F;
+    --portrait-bg-to: #111114;
+    color-scheme: dark;
   }
 }
 
-/* ===== Base Styles ===== */
-* {
-  border-color: hsl(var(--border));
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  border-color: var(--border-subtle);
 }
 
 html {
   scroll-behavior: smooth;
+  overflow-x: clip;
+  background-color: var(--bg);
+  color: var(--fg);
 }
 
 body {
-  color: hsl(var(--foreground));
-  background: hsl(var(--background));
-  font-family: 'Inter', system-ui, sans-serif;
-  transition: background 0.3s ease, color 0.3s ease;
-  overflow-x: hidden;
+  margin: 0;
+  min-height: 100vh;
+  width: 100%;
+  overflow-x: clip;
+  background-color: var(--bg);
+  color: var(--fg);
+  font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+  font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  transition: background-color 180ms ease, color 180ms ease;
 }
 
-/* ===== Custom Scrollbar ===== */
+section[id] {
+  scroll-margin-top: 5.25rem;
+}
+
+/* Subtle Architectural Geometric Dot Matrix */
+.architectural-grid {
+  background-image: radial-gradient(var(--dot-color) 1px, transparent 1px);
+  background-size: 24px 24px;
+  background-position: 0 0;
+}
+
+/* Browser Surface Theming — Neutral Architectural Scrollbar (Zero Neon) */
 ::-webkit-scrollbar {
   width: 8px;
+  height: 8px;
 }
 
 ::-webkit-scrollbar-track {
-  background: hsl(var(--background));
+  background: var(--bg);
 }
 
 ::-webkit-scrollbar-thumb {
-  background: hsl(var(--primary) / 0.5);
-  border-radius: 4px;
+  background: #D4D4D8;
+  border-radius: 9999px;
+  border: 2px solid var(--bg);
+}
+
+.dark ::-webkit-scrollbar-thumb {
+  background: #2E2E36;
+  border: 2px solid var(--bg);
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: hsl(var(--primary) / 0.7);
+  background: #A1A1AA;
 }
 
-/* ===== Component Utilities ===== */
-@layer components {
-  .btn {
-    @apply px-6 py-3 rounded-xl font-medium transition-all duration-300;
-  }
-
-  .btn-primary {
-    @apply bg-gradient-to-r from-violet-600 to-indigo-600 text-white 
-           hover:from-violet-500 hover:to-indigo-500 
-           shadow-lg shadow-violet-500/25 hover:shadow-violet-500/40;
-  }
-
-  .btn-secondary {
-    @apply border border-white/10 bg-white/5 backdrop-blur-sm text-foreground
-           hover:bg-white/10 hover:border-white/20;
-  }
-
-  .section-padding {
-    @apply py-20 md:py-28;
-  }
-
-  .container-custom {
-    @apply container mx-auto px-4 sm:px-6 lg:px-8;
-  }
-
-  /* Glassmorphism */
-  .glass {
-    @apply bg-white/5 backdrop-blur-xl border border-white/10;
-  }
-
-  .glass-card {
-    @apply bg-white/[0.03] backdrop-blur-xl border border-white/[0.08] rounded-2xl;
-  }
-
-  .glass-strong {
-    @apply bg-white/10 backdrop-blur-2xl border border-white/15;
-  }
-
-  /* Gradient Text */
-  .gradient-text {
-    @apply bg-clip-text text-transparent bg-gradient-to-r from-violet-400 via-fuchsia-400 to-cyan-400;
-  }
-
-  .gradient-text-warm {
-    @apply bg-clip-text text-transparent bg-gradient-to-r from-amber-400 via-orange-400 to-rose-400;
-  }
+.dark ::-webkit-scrollbar-thumb:hover {
+  background: #52525B;
 }
 
-/* ===== Glow Effect CSS (Required by GlowingEffect component) ===== */
-.glow {
-  position: absolute;
-  inset: 0;
-  border-radius: inherit;
-}
-
-.glow::before {
-  content: "";
-  position: absolute;
-  inset: calc(-1 * var(--glowingeffect-border-width, 1px));
-  border-radius: inherit;
-  border: var(--glowingeffect-border-width, 1px) solid transparent;
-  background: var(--gradient);
-  background-attachment: fixed;
-  mask-clip: padding-box, border-box;
-  mask-composite: intersect;
-  mask-image: linear-gradient(#0000, #0000),
-    conic-gradient(
-      from calc((var(--start, 0) - var(--spread, 20)) * 1deg),
-      #00000000 0deg,
-      #fff,
-      #00000000 calc(var(--spread, 20) * 2deg)
-    );
-  opacity: var(--active, 0);
-  transition: opacity 0.3s;
-}
-
-/* ===== Scroll Animation ===== */
-.animate-on-scroll {
-  opacity: 0;
-  transform: translateY(20px);
-  transition: opacity 0.6s ease-out, transform 0.6s ease-out;
-}
-
-.animate-on-scroll.is-visible {
-  opacity: 1;
-  transform: translateY(0);
-}
-
-/* ===== Skill Bar Animation ===== */
-.skill-bar-fill {
-  transition: width 1.5s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-/* ===== Selection ===== */
 ::selection {
-  background: hsl(var(--primary) / 0.3);
-  color: hsl(var(--foreground));
+  background-color: var(--signal-bg);
+  color: var(--fg);
+}
+
+:focus-visible {
+  outline: 2px solid var(--fg);
+  outline-offset: 2px;
+}
+
+/* Architectural Design Primitives */
+@layer components {
+  .container-editorial {
+    @apply w-full max-w-[1200px] mx-auto px-5 sm:px-8 lg:px-10;
+  }
+
+  .section-editorial {
+    @apply py-20 md:py-24 border-t border-line;
+  }
+
+  .arch-card {
+    background-color: var(--surface);
+    border: 1px solid var(--border-subtle);
+    box-shadow: var(--card-shadow);
+    border-radius: 1rem;
+    transition: transform 180ms cubic-bezier(0.16, 1, 0.3, 1),
+                border-color 180ms ease,
+                box-shadow 180ms ease,
+                background-color 180ms ease;
+  }
+
+  .arch-card-interactive {
+    background-color: var(--surface);
+    border: 1px solid var(--border-subtle);
+    box-shadow: var(--card-shadow);
+    border-radius: 1rem;
+    transition: transform 180ms cubic-bezier(0.16, 1, 0.3, 1),
+                border-color 180ms ease,
+                box-shadow 180ms ease,
+                background-color 180ms ease;
+  }
+
+  .arch-card-interactive:hover {
+    transform: translateY(-2px);
+    border-color: var(--border-strong);
+    box-shadow: var(--card-shadow-hover);
+  }
+
+  .btn-arch-primary {
+    background-color: var(--btn-primary-bg);
+    color: var(--btn-primary-fg);
+    @apply inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-lg text-sm font-medium tracking-[-0.01em] transition-all duration-150;
+  }
+
+  .btn-arch-primary:hover {
+    background-color: var(--btn-primary-hover);
+    transform: translateY(-1px);
+  }
+
+  .btn-arch-secondary {
+    background-color: var(--surface);
+    color: var(--fg);
+    border: 1px solid var(--border-subtle);
+    box-shadow: var(--card-shadow);
+    @apply inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-lg text-sm font-medium tracking-[-0.01em] transition-all duration-150;
+  }
+
+  .btn-arch-secondary:hover {
+    border-color: var(--border-strong);
+    background-color: var(--surface-elevated);
+    transform: translateY(-1px);
+  }
+
+  .pill-status {
+    background-color: var(--signal-bg);
+    border: 1px solid var(--signal-border);
+    color: var(--signal);
+  }
+
+  .spec-tag {
+    background-color: var(--surface-elevated);
+    border: 1px solid var(--border-subtle);
+    color: var(--fg-secondary);
+    @apply inline-flex items-center px-2.5 py-1 rounded-md font-mono text-xs leading-none tracking-[-0.01em] transition-colors duration-150;
+  }
+
+  .input-editorial {
+    background-color: var(--surface-elevated);
+    border: 1px solid var(--border-subtle);
+    color: var(--fg);
+    @apply w-full px-3.5 py-2.5 rounded-lg text-sm transition-colors duration-150;
+  }
+
+  .input-editorial::placeholder {
+    color: var(--fg-tertiary);
+  }
+
+  .input-editorial:focus {
+    outline: none;
+    border-color: var(--fg);
+    background-color: var(--surface);
+  }
+}
+
+/* Signal Emerald Live Dot Pulse */
+@keyframes signalPulse {
+  0%, 100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.45;
+    transform: scale(0.88);
+  }
+}
+
+.signal-dot-pulse {
+  animation: signalPulse 2.4s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+/* Portrait Studio Frame */
+.portrait-studio-backdrop {
+  background: radial-gradient(circle at 50% 34%, var(--portrait-bg-from) 0%, var(--portrait-bg-to) 100%);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
 }

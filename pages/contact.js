@@ -1,90 +1,91 @@
+import Link from 'next/link';
+import { ArrowLeft, Mail, Download } from 'lucide-react';
 import Contact from '../components/Contact';
-import { motion } from 'framer-motion';
-import { MessageCircle, Mail } from 'lucide-react';
 import SectionHeading from '../components/ui/SectionHeading';
 import { PROFILE } from '../utils/portfolioData';
 
-export default function ContactPage() {
-  const faqs = [
-    {
-      question: 'What are your core areas of expertise?',
-      answer: 'I specialize in full-stack web engineering (Next.js, React, TypeScript, PostgreSQL), document & PDF systems, multilingual Indian OCR & bounding-box layout pipelines, and machine learning (Python, Scikit-Learn, XGBoost).'
-    },
-    {
-      question: 'What have you built recently?',
-      answer: 'I built SEMDIV & Folio Scan (www.semdiv.com) — a flagship browser project for PDF region markup, 14-language Indian OCR, structured documents, spreadsheets, and media, alongside Arogya Sahayak (Medical AI), AccidentAware, and 100K+ record ML pipelines on @adarsh180.'
-    },
-    {
-      question: 'Are you available for full-time, remote, or contract roles?',
-      answer: 'Yes! As a 2025 B.Tech ECE graduate from Techno India University, I am an immediate joiner with 100% dedicated availability for full-time, remote, contract, and AI/data or engineering roles.'
-    },
-    {
-      question: 'Which languages can you work in?',
-      answer: 'I have native reading, writing, proofreading, and Unicode typing fluency in Hindi (Devanagari script) and full professional fluency in English.'
-    }
-  ];
+const FAQS = [
+  {
+    q: 'Are you available for immediate full-time joining?',
+    a: 'Yes. Having completed my B.Tech in Electronics and Communication Engineering at Techno India University in August 2025 (7.23 CGPA), I am available immediately with 100% full-time commitment for software engineering, AI/ML, and document/data roles.',
+  },
+  {
+    q: 'What are your primary technical strengths?',
+    a: 'Full-stack web development (Next.js, React, TypeScript, PostgreSQL), multilingual Indian OCR and 2D bounding-box PDF layout engines (SEMDIV & Folio Scan), and Python machine learning / 100K+ dataset curation.',
+  },
+  {
+    q: 'Which languages can you read, write, and annotate fluently?',
+    a: 'I have native reading, writing, proofreading, and Unicode typing fluency in Hindi (Devanagari script) alongside full professional fluency in English.',
+  },
+  {
+    q: 'Why do SEMDIV links reference @adarsh560 while open-source repos use @adarsh180?',
+    a: '@adarsh180 hosts my public open-source repositories, ML notebooks, and web apps, while @adarsh560 is my dedicated workspace account associated with the private SEMDIV codebase.',
+  },
+];
 
+export default function ContactPage() {
   return (
-    <div className="pt-20">
+    <div className="w-full">
+      <div className="container-editorial pt-8">
+        <Link
+          href="/"
+          className="inline-flex items-center gap-1.5 font-mono text-xs text-fg-secondary hover:text-fg transition-colors"
+        >
+          <ArrowLeft size={14} strokeWidth={1.5} />
+          <span>Back to Overview</span>
+        </Link>
+      </div>
+
       <Contact />
-      
-      {/* FAQs */}
-      <section className="section-padding relative z-10">
-        <div className="container-custom">
+
+      <section className="section-editorial">
+        <div className="container-editorial">
           <SectionHeading
-            title="Frequently Asked Questions"
-            subtitle="Quick answers about my background, availability, and product work."
+            indexLabel="FAQ / Recruiter Brief"
+            title="Common Questions"
+            subtitle="Quick answers regarding availability, technical specialization, and language proficiency."
           />
-          
-          <div className="max-w-3xl mx-auto space-y-4">
-            {faqs.map((faq, index) => (
-              <motion.div
-                key={index}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: index * 0.08, duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-              >
-                <div className="glass-card p-6 rounded-2xl hover:bg-white/[0.06] transition-colors">
-                  <div className="flex items-start gap-4">
-                    <div className="p-2 rounded-lg bg-violet-500/10 border border-violet-500/20 mt-0.5">
-                      <MessageCircle size={16} className="text-violet-400" />
-                    </div>
-                    <div>
-                      <h3 className="text-lg font-bold font-display mb-2 text-foreground">{faq.question}</h3>
-                      <p className="text-sm text-muted-foreground leading-relaxed">{faq.answer}</p>
-                    </div>
-                  </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-5 items-stretch">
+            {FAQS.map((item, idx) => (
+              <article key={idx} className="arch-card p-6">
+                <div className="font-mono text-xs text-fg-tertiary mb-2">
+                  Q0{idx + 1}
                 </div>
-              </motion.div>
+                <h3 className="text-base font-semibold tracking-[-0.015em] text-fg mb-2">
+                  {item.q}
+                </h3>
+                <p className="text-sm text-fg-secondary leading-relaxed">{item.a}</p>
+              </article>
             ))}
           </div>
-        </div>
-      </section>
-      
-      {/* CTA */}
-      <section className="section-padding relative z-10">
-        <div className="container-custom">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
-            className="max-w-3xl mx-auto text-center glass-card p-10 rounded-2xl"
-          >
-            <h2 className="text-2xl md:text-3xl font-bold font-display mb-4">
-              <span className="gradient-text">Let&apos;s Connect!</span>
-            </h2>
-            <p className="text-muted-foreground mb-6 max-w-lg mx-auto">
-              Reach out for job opportunities, collaborations, questions about SEMDIV, or just to say hello.
-            </p>
-            <a 
-              href={`mailto:${PROFILE.email}`} 
-              className="btn btn-primary inline-flex items-center gap-2 group"
-            >
-              Email Me <Mail size={16} className="group-hover:translate-x-0.5 transition-transform" />
-            </a>
-          </motion.div>
+
+          <div className="mt-10 arch-card p-6 sm:p-8 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+            <div>
+              <h3 className="text-lg font-semibold tracking-[-0.02em] text-fg">
+                Need a copy of my resume for your hiring team?
+              </h3>
+              <p className="text-sm text-fg-secondary mt-1">
+                Download the latest single-page PDF or email me directly at {PROFILE.email}.
+              </p>
+            </div>
+            <div className="flex flex-wrap gap-3 shrink-0">
+              <a
+                href="/ADARSH-TIWARI.pdf"
+                download="Adarsh_Tiwari_Resume.pdf"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="btn-arch-secondary"
+              >
+                <Download size={15} strokeWidth={1.5} />
+                <span>Resume PDF</span>
+              </a>
+              <a href={`mailto:${PROFILE.email}`} className="btn-arch-primary">
+                <Mail size={15} strokeWidth={1.5} />
+                <span>Email Directly</span>
+              </a>
+            </div>
+          </div>
         </div>
       </section>
     </div>
@@ -94,7 +95,7 @@ export default function ContactPage() {
 export async function getStaticProps() {
   return {
     props: {
-      title: 'Contact'
-    }
+      title: 'Contact',
+    },
   };
 }

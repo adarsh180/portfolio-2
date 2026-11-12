@@ -6,27 +6,23 @@ import { ThemeProvider } from '../context/ThemeContext';
 
 function MyApp({ Component, pageProps }) {
   const router = useRouter();
-  
-  // Add page transition effect
+
   useEffect(() => {
-    const handleRouteChange = () => {
-      // Scroll to top on page change
-      window.scrollTo(0, 0);
+    const handleRouteChangeComplete = (url) => {
+      if (!url.includes('#')) {
+        window.scrollTo({ top: 0, left: 0, behavior: 'auto' });
+      }
     };
 
-    // Check if router.events is available
-    if (router.events) {
-      router.events.on('routeChangeComplete', handleRouteChange);
-      
-      return () => {
-        router.events.off('routeChangeComplete', handleRouteChange);
-      };
-    }
-  }, [router]);
+    router.events?.on('routeChangeComplete', handleRouteChangeComplete);
+    return () => {
+      router.events?.off('routeChangeComplete', handleRouteChangeComplete);
+    };
+  }, [router.events]);
 
   return (
     <ThemeProvider>
-      <Layout title={`Portfolio | ${pageProps.title || 'Home'}`}>
+      <Layout title={pageProps?.title || 'Overview'}>
         <Component {...pageProps} />
       </Layout>
     </ThemeProvider>

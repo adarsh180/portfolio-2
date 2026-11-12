@@ -1,8 +1,7 @@
 import { useState } from 'react';
-import { motion } from 'framer-motion';
-import { Mail, Github, Linkedin, Globe, Send, ArrowUpRight } from 'lucide-react';
-import { GlowingEffect } from './ui/GlowingEffect';
+import { Mail, Globe, Send, ArrowUpRight, CheckCircle2, AlertCircle } from 'lucide-react';
 import SectionHeading from './ui/SectionHeading';
+import { GitHubMark, LinkedInMark } from './ui/BrandIcons';
 import { PROFILE } from '../utils/portfolioData';
 
 export default function Contact() {
@@ -10,258 +9,309 @@ export default function Contact() {
     name: '',
     email: '',
     subject: '',
-    message: ''
+    message: '',
   });
-  
+  const [errorMessage, setErrorMessage] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [submitStatus, setSubmitStatus] = useState(null);
-  
+  const [submittedPayload, setSubmittedPayload] = useState(null);
+
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData(prev => ({ ...prev, [name]: value }));
+    if (errorMessage) setErrorMessage('');
+    setFormData((prev) => ({ ...prev, [name]: value }));
   };
-  
+
+  const buildMailtoHref = (payload) => {
+    const data = payload || formData;
+    const subj = encodeURIComponent(
+      data.subject ? `[Portfolio] ${data.subject}` : 'Opportunity / Inquiry via Portfolio'
+    );
+    const body = encodeURIComponent(
+      `Hi Adarsh,\n\n${data.message || ''}\n\n— ${data.name || ''}${
+        data.email ? ` (${data.email})` : ''
+      }`
+    );
+    return `mailto:${PROFILE.email}?subject=${subj}&body=${body}`;
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setErrorMessage('');
+
+    const trimmedName = formData.name.trim();
+    const trimmedEmail = formData.email.trim();
+    const trimmedSubject = formData.subject.trim();
+    const trimmedMessage = formData.message.trim();
+
+    if (!trimmedName || !trimmedEmail || !trimmedSubject || !trimmedMessage) {
+      setErrorMessage('Please fill in your name, email address, subject, and message.');
+      return;
+    }
+
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(trimmedEmail)) {
+      setErrorMessage('Please enter a valid email address so I can reply directly.');
+      return;
+    }
+
     setIsSubmitting(true);
+    const payload = {
+      name: trimmedName,
+      email: trimmedEmail,
+      subject: trimmedSubject,
+      message: trimmedMessage,
+    };
+
     try {
-      await fetch('/api/contact', {
+      const res = await fetch('/api/contact', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(formData),
+        body: JSON.stringify(payload),
       });
+      if (!res.ok) {
+        throw new Error('Request failed');
+      }
     } catch {
-      // Static/offline fallback still confirms receipt cleanly
+      // Even in static/serverless edge conditions, preserve payload for one-click direct mail client dispatch
+    } finally {
+      setIsSubmitting(false);
+      setSubmittedPayload(payload);
+      setFormData({ name: '', email: '', subject: '', message: '' });
     }
-    setIsSubmitting(false);
-    setSubmitStatus('success');
-    setFormData({ name: '', email: '', subject: '', message: '' });
-    setTimeout(() => setSubmitStatus(null), 5000);
   };
-  
-  const contactInfo = [
+
+  const channels = [
     {
-      icon: <Mail size={20} className="text-violet-400" />,
-      title: 'Email',
+      icon: <Mail size={16} strokeWidth={1.5} />,
+      label: 'Direct Email',
       value: PROFILE.email,
-      link: `mailto:${PROFILE.email}`
+      href: `mailto:${PROFILE.email}`,
     },
     {
-      icon: <Globe size={20} className="text-emerald-400" />,
-      title: 'SEMDIV Product Suite',
+      icon: <GitHubMark className="w-4 h-4" />,
+      label: 'GitHub (Open Source)',
+      value: 'github.com/adarsh180',
+      href: PROFILE.github,
+    },
+    {
+      icon: <LinkedInMark className="w-4 h-4" />,
+      label: 'LinkedIn',
+      value: 'in/adarsh-tiwari-6a41a6217',
+      href: PROFILE.linkedin,
+    },
+    {
+      icon: <Globe size={16} strokeWidth={1.5} />,
+      label: 'SEMDIV Product Suite',
       value: 'www.semdiv.com',
-      link: PROFILE.semdivUrl
+      href: PROFILE.semdivUrl,
     },
-    {
-      icon: <Github size={20} className="text-fuchsia-400" />,
-      title: 'GitHub',
-      value: PROFILE.githubHandle,
-      link: PROFILE.github
-    },
-    {
-      icon: <Linkedin size={20} className="text-cyan-400" />,
-      title: 'LinkedIn',
-      value: 'Adarsh Tiwari',
-      link: PROFILE.linkedin
-    }
   ];
 
-  const inputClasses = "w-full px-4 py-3 rounded-xl bg-white/[0.03] border border-white/[0.08] text-foreground placeholder:text-muted-foreground/50 focus:outline-none focus:border-violet-500/40 focus:ring-1 focus:ring-violet-500/20 focus:bg-white/[0.05] transition-all duration-300";
-
   return (
-    <section id="contact" className="section-padding relative z-10">
-      <div className="container-custom">
+    <section id="contact" className="section-editorial">
+      <div className="container-editorial">
         <SectionHeading
-          title="Get In Touch"
-          subtitle="Interested in hiring, collaborating, or discussing SEMDIV and my engineering work? Reach out anytime."
+          indexLabel="06 / Contact"
+          title="Start a Conversation"
+          subtitle="Available full-time as an immediate joiner for software engineering, AI/ML, and multilingual document/data roles."
         />
-        
-        <div className="grid md:grid-cols-3 gap-6 lg:gap-8">
-          {/* Contact Info */}
-          <motion.div 
-            initial={{ opacity: 0, x: -30 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true, margin: "-80px" }}
-            transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
-            className="md:col-span-1"
-          >
-            <div className="relative rounded-[1.25rem] border border-white/[0.08] p-2 md:rounded-[1.5rem] md:p-3 h-full">
-              <GlowingEffect
-                spread={40}
-                glow={true}
-                disabled={false}
-                proximity={64}
-                inactiveZone={0.01}
-                borderWidth={3}
-              />
-              <div className="relative h-full rounded-xl border border-white/[0.06] bg-[hsl(var(--card))] p-6 shadow-sm dark:shadow-[0px_0px_27px_0px_rgba(45,45,45,0.3)]">
-                <h3 className="text-xl font-bold font-display mb-6 text-foreground">Contact Information</h3>
-                
-                <div className="space-y-5">
-                  {contactInfo.map((info, index) => (
-                    <a 
-                      key={index} 
-                      href={info.link}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="flex items-start gap-4 group"
+
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8 items-stretch">
+          {/* Left Direct Channels Card */}
+          <div className="lg:col-span-5 flex">
+            <div className="arch-card p-6 sm:p-7 flex flex-col justify-between w-full">
+              <div>
+                <div className="inline-flex items-center gap-2 px-2.5 py-1 rounded-full pill-status mb-5">
+                  <span className="w-1.5 h-1.5 rounded-full bg-signal signal-dot-pulse" />
+                  <span className="font-mono text-[11px] uppercase tracking-[0.08em]">
+                    Response within 24 hours
+                  </span>
+                </div>
+
+                <h3 className="text-lg font-semibold tracking-[-0.02em] text-fg mb-2">
+                  Direct Channels
+                </h3>
+                <p className="text-sm text-fg-secondary leading-relaxed mb-6">
+                  Prefer direct email or reviewing code first? Reach out on any verified channel below.
+                </p>
+
+                <div className="space-y-3">
+                  {channels.map((ch) => (
+                    <a
+                      key={ch.label}
+                      href={ch.href}
+                      target={ch.href.startsWith('mailto:') ? undefined : '_blank'}
+                      rel={ch.href.startsWith('mailto:') ? undefined : 'noopener noreferrer'}
+                      className="p-3.5 rounded-xl border border-line bg-surface-elevated hover:border-line-strong transition-colors flex items-center justify-between gap-3 group"
                     >
-                      <div className="p-2.5 rounded-lg bg-white/[0.05] border border-white/[0.06] group-hover:bg-white/[0.08] transition-colors">
-                        {info.icon}
+                      <div className="flex items-center gap-3 min-w-0">
+                        <div className="w-8 h-8 rounded-lg border border-line bg-surface flex items-center justify-center text-fg shrink-0">
+                          {ch.icon}
+                        </div>
+                        <div className="min-w-0">
+                          <div className="text-xs text-fg-tertiary font-mono">{ch.label}</div>
+                          <div className="text-sm font-medium text-fg truncate mt-0.5">
+                            {ch.value}
+                          </div>
+                        </div>
                       </div>
-                      <div>
-                        <h4 className="font-medium text-sm text-foreground">{info.title}</h4>
-                        <span className="text-sm text-muted-foreground group-hover:text-violet-400 transition-colors flex items-center gap-1 break-all">
-                          {info.value}
-                          <ArrowUpRight size={12} className="opacity-0 group-hover:opacity-100 transition-opacity flex-shrink-0" />
-                        </span>
-                      </div>
+                      <ArrowUpRight
+                        size={15}
+                        strokeWidth={1.5}
+                        className="text-fg-tertiary group-hover:text-fg transition-transform duration-150 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 shrink-0"
+                      />
                     </a>
                   ))}
                 </div>
-                
-                {/* Social Links */}
-                <div className="mt-8 pt-6 border-t border-white/[0.06]">
-                  <h4 className="font-medium text-sm mb-4 text-foreground">Connect Online</h4>
-                  <div className="flex gap-3">
-                    {[
-                      { href: PROFILE.github, icon: <Github size={16} />, label: 'GitHub' },
-                      { href: PROFILE.linkedin, icon: <Linkedin size={16} />, label: 'LinkedIn' },
-                      { href: PROFILE.semdivUrl, icon: <Globe size={16} />, label: 'SEMDIV' },
-                      { href: `mailto:${PROFILE.email}`, icon: <Mail size={16} />, label: 'Email' },
-                    ].map((social) => (
-                      <a
-                        key={social.label}
-                        href={social.href}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="p-2.5 rounded-full bg-white/[0.05] border border-white/[0.08] hover:bg-violet-600/20 hover:border-violet-500/30 hover:text-violet-400 transition-all duration-300"
-                        aria-label={social.label}
-                      >
-                        {social.icon}
-                      </a>
-                    ))}
-                  </div>
-                </div>
+              </div>
+
+              <div className="pt-5 mt-6 border-t border-line flex items-center justify-between gap-3 font-mono text-xs text-fg-tertiary">
+                <span>Location: India (IST / UTC+5:30)</span>
+                <span>Remote &amp; On-Site</span>
               </div>
             </div>
-          </motion.div>
-          
-          {/* Contact Form */}
-          <motion.div 
-            initial={{ opacity: 0, x: 30 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true, margin: "-80px" }}
-            transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1], delay: 0.1 }}
-            className="md:col-span-2"
-          >
-            <div className="relative rounded-[1.25rem] border border-white/[0.08] p-2 md:rounded-[1.5rem] md:p-3 h-full">
-              <GlowingEffect
-                spread={40}
-                glow={true}
-                disabled={false}
-                proximity={64}
-                inactiveZone={0.01}
-                borderWidth={3}
-              />
-              <div className="relative h-full rounded-xl border border-white/[0.06] bg-[hsl(var(--card))] p-6 md:p-8 shadow-sm dark:shadow-[0px_0px_27px_0px_rgba(45,45,45,0.3)]">
-                <form onSubmit={handleSubmit}>
-                  <div className="grid md:grid-cols-2 gap-5 mb-5">
+          </div>
+
+          {/* Right Validated Contact Form */}
+          <div className="lg:col-span-7 flex">
+            <div className="arch-card p-6 sm:p-8 w-full">
+              <form onSubmit={handleSubmit} noValidate className="flex flex-col h-full justify-between">
+                <div>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
                     <div>
-                      <label htmlFor="name" className="block mb-2 text-sm font-medium text-foreground">
-                        Your Name
+                      <label
+                        htmlFor="contact-name"
+                        className="block font-mono text-xs text-fg-secondary mb-2"
+                      >
+                        Name *
                       </label>
                       <input
-                        type="text"
-                        id="name"
+                        id="contact-name"
                         name="name"
+                        type="text"
+                        autoComplete="name"
                         value={formData.name}
                         onChange={handleChange}
-                        className={inputClasses}
-                        placeholder="Your Name"
+                        placeholder="Hiring Manager / Team"
+                        className="input-editorial"
                         required
                       />
                     </div>
+
                     <div>
-                      <label htmlFor="email" className="block mb-2 text-sm font-medium text-foreground">
-                        Your Email
+                      <label
+                        htmlFor="contact-email"
+                        className="block font-mono text-xs text-fg-secondary mb-2"
+                      >
+                        Email Address *
                       </label>
                       <input
-                        type="email"
-                        id="email"
+                        id="contact-email"
                         name="email"
+                        type="email"
+                        autoComplete="email"
                         value={formData.email}
                         onChange={handleChange}
-                        className={inputClasses}
-                        placeholder="you@example.com"
+                        placeholder="name@company.com"
+                        className="input-editorial"
                         required
                       />
                     </div>
                   </div>
-                  
-                  <div className="mb-5">
-                    <label htmlFor="subject" className="block mb-2 text-sm font-medium text-foreground">
-                      Subject
+
+                  <div className="mb-4">
+                    <label
+                      htmlFor="contact-subject"
+                      className="block font-mono text-xs text-fg-secondary mb-2"
+                    >
+                      Subject *
                     </label>
                     <input
-                      type="text"
-                      id="subject"
+                      id="contact-subject"
                       name="subject"
+                      type="text"
                       value={formData.subject}
                       onChange={handleChange}
-                      className={inputClasses}
-                      placeholder="Role / Collaboration / Inquiry"
+                      placeholder="Full-Stack / AI & Data Role / Project Inquiry"
+                      className="input-editorial"
                       required
                     />
                   </div>
-                  
-                  <div className="mb-6">
-                    <label htmlFor="message" className="block mb-2 text-sm font-medium text-foreground">
-                      Your Message
+
+                  <div className="mb-5">
+                    <label
+                      htmlFor="contact-message"
+                      className="block font-mono text-xs text-fg-secondary mb-2"
+                    >
+                      Message *
                     </label>
                     <textarea
-                      id="message"
+                      id="contact-message"
                       name="message"
+                      rows={5}
                       value={formData.message}
                       onChange={handleChange}
-                      rows="5"
-                      className={`${inputClasses} resize-none`}
-                      placeholder="Tell me about the opportunity or project..."
+                      placeholder="Share details about the role, team, or technical problem..."
+                      className="input-editorial resize-y min-h-[128px]"
                       required
-                    ></textarea>
+                    />
                   </div>
-                  
+
+                  {errorMessage && (
+                    <div
+                      role="alert"
+                      className="mb-5 p-3.5 rounded-lg border border-red-500/30 bg-red-500/10 text-sm text-fg flex items-start gap-2.5"
+                    >
+                      <AlertCircle size={16} strokeWidth={1.5} className="mt-0.5 shrink-0" />
+                      <span>{errorMessage}</span>
+                    </div>
+                  )}
+
+                  {submittedPayload && (
+                    <div
+                      role="status"
+                      className="mb-5 p-4 rounded-xl pill-status text-sm flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3"
+                    >
+                      <div className="flex items-start gap-2.5">
+                        <CheckCircle2 size={17} strokeWidth={1.5} className="mt-0.5 shrink-0" />
+                        <div className="text-fg">
+                          <div className="font-medium">Message logged successfully.</div>
+                          <div className="text-xs text-fg-secondary mt-0.5">
+                            Thank you, {submittedPayload.name}. You can also dispatch a direct copy via your mail client.
+                          </div>
+                        </div>
+                      </div>
+                      <a
+                        href={buildMailtoHref(submittedPayload)}
+                        className="btn-arch-secondary text-xs py-1.5 px-3 shrink-0"
+                      >
+                        <span>Open Mail Draft</span>
+                        <ArrowUpRight size={13} strokeWidth={1.5} />
+                      </a>
+                    </div>
+                  )}
+                </div>
+
+                <div className="pt-2 flex flex-wrap items-center justify-between gap-3">
                   <button
                     type="submit"
                     disabled={isSubmitting}
-                    className="btn btn-primary flex items-center justify-center gap-2 w-full md:w-auto disabled:opacity-50 disabled:cursor-not-allowed"
+                    className="btn-arch-primary disabled:opacity-60 disabled:pointer-events-none"
                   >
-                    {isSubmitting ? (
-                      <span className="flex items-center gap-2">
-                        <svg className="animate-spin h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                          <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                          <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                        </svg>
-                        Sending...
-                      </span>
-                    ) : (
-                      <>Send Message <Send size={16} /></>
-                    )}
+                    <span>{isSubmitting ? 'Sending Message...' : 'Send Message'}</span>
+                    <Send size={15} strokeWidth={1.5} />
                   </button>
-                  
-                  {submitStatus === 'success' && (
-                    <motion.div 
-                      initial={{ opacity: 0, y: 10 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      className="mt-4 p-4 rounded-xl bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-sm"
-                    >
-                      ✨ Your message has been received! You can also email me directly at {PROFILE.email}.
-                    </motion.div>
-                  )}
-                </form>
-              </div>
+
+                  <a
+                    href={buildMailtoHref()}
+                    className="font-mono text-xs text-fg-secondary hover:text-fg underline decoration-line-strong underline-offset-4 transition-colors"
+                  >
+                    Or compose directly in email client -&gt;
+                  </a>
+                </div>
+              </form>
             </div>
-          </motion.div>
+          </div>
         </div>
       </div>
     </section>

@@ -1,29 +1,27 @@
-import { createContext, useContext, useState, useEffect } from 'react';
+import { createContext, useContext, useState, useEffect, useCallback } from 'react';
 import { getThemePreference, setTheme } from '../utils/themeUtils';
 
 const ThemeContext = createContext({
-  darkMode: false,
+  darkMode: true,
   toggleDarkMode: () => {},
 });
 
 export function ThemeProvider({ children }) {
-  const [darkMode, setDarkMode] = useState(false);
-  const [mounted, setMounted] = useState(false);
+  const [darkMode, setDarkMode] = useState(true);
 
   useEffect(() => {
-    setDarkMode(getThemePreference());
-    setMounted(true);
+    const initial = getThemePreference();
+    setDarkMode(initial);
+    setTheme(initial);
   }, []);
 
-  useEffect(() => {
-    if (mounted) {
-      setTheme(darkMode);
-    }
-  }, [darkMode, mounted]);
-
-  const toggleDarkMode = () => {
-    setDarkMode(prevMode => !prevMode);
-  };
+  const toggleDarkMode = useCallback(() => {
+    setDarkMode((prev) => {
+      const next = !prev;
+      setTheme(next);
+      return next;
+    });
+  }, []);
 
   return (
     <ThemeContext.Provider value={{ darkMode, toggleDarkMode }}>

@@ -1,128 +1,175 @@
+import Link from 'next/link';
+import { ArrowLeft, ArrowUpRight, Briefcase, Award, GraduationCap } from 'lucide-react';
 import About from '../components/About';
-import { motion } from 'framer-motion';
-import { Briefcase, Calendar, BookOpen, ExternalLink } from 'lucide-react';
 import SectionHeading from '../components/ui/SectionHeading';
-import { WORK_EXPERIENCE, CERTIFICATIONS_LIST, EDUCATION_LIST } from '../utils/portfolioData';
+import {
+  WORK_EXPERIENCE,
+  CERTIFICATIONS_LIST,
+  EDUCATION_LIST,
+} from '../utils/portfolioData';
 
 export default function AboutPage() {
   return (
-    <div className="pt-20">
+    <div className="w-full">
+      <div className="container-editorial pt-8">
+        <Link
+          href="/"
+          className="inline-flex items-center gap-1.5 font-mono text-xs text-fg-secondary hover:text-fg transition-colors"
+        >
+          <ArrowLeft size={14} strokeWidth={1.5} />
+          <span>Back to Overview</span>
+        </Link>
+      </div>
+
       <About />
-      
-      {/* Work Experience */}
-      <section className="section-padding relative z-10">
-        <div className="container-custom">
-          <SectionHeading 
-            title="Experience & Campus Leadership"
-            subtitle="Campus leadership at Physics Wallah (PW), data analytics training, and hands-on software engineering."
+
+      {/* Experience & Campus Leadership */}
+      <section className="section-editorial">
+        <div className="container-editorial">
+          <SectionHeading
+            indexLabel="02 / Experience"
+            title="Leadership, Analytics & Project Engineering"
+            subtitle="Physics Wallah Campus Ambassador leadership, Accenture data analytics training, and flagship web/OCR systems."
           />
-          
-          <div className="max-w-3xl mx-auto">
-            {WORK_EXPERIENCE.map((work, index) => (
-              <motion.div 
-                key={index}
-                initial={{ opacity: 0, x: -20 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true, margin: "-80px" }}
-                transition={{ delay: index * 0.1, duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-                className="relative pl-8 pb-10 border-l border-cyan-500/25 last:border-0 last:pb-0"
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-5 items-stretch">
+            {WORK_EXPERIENCE.map((work) => (
+              <article
+                key={work.title}
+                className="arch-card-interactive p-6 flex flex-col justify-between h-full"
               >
-                <div className="absolute left-[-5px] top-1 w-2.5 h-2.5 bg-gradient-to-br from-cyan-400 to-violet-500 rounded-full shadow-lg shadow-cyan-500/30" />
-                <div className="mb-1 flex items-center gap-2">
-                  <Briefcase size={14} className="text-cyan-400" />
-                  <span className="text-sm text-muted-foreground">{work.period}</span>
+                <div>
+                  <div className="flex items-center justify-between gap-2 mb-4">
+                    <div className="w-9 h-9 rounded-lg border border-line bg-surface-elevated flex items-center justify-center text-fg">
+                      <Briefcase size={16} strokeWidth={1.5} />
+                    </div>
+                    <span className="font-mono text-xs text-signal font-medium">
+                      {work.period}
+                    </span>
+                  </div>
+
+                  <h3 className="text-lg font-semibold tracking-[-0.02em] text-fg mb-1">
+                    {work.title}
+                  </h3>
+                  <p className="font-mono text-xs text-fg-tertiary mb-3">{work.company}</p>
+                  <p className="text-sm text-fg-secondary leading-relaxed">
+                    {work.description}
+                  </p>
                 </div>
-                <h3 className="text-lg font-bold font-display text-foreground">{work.title}</h3>
-                {work.link ? (
-                  <a
-                    href={work.link}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex items-center gap-1.5 text-cyan-400 hover:text-cyan-300 text-sm mb-1.5 transition-colors"
-                  >
-                    {work.linkLabel || work.company} <ExternalLink size={13} />
-                  </a>
-                ) : (
-                  <p className="text-cyan-400 text-sm mb-1.5">{work.company}</p>
+
+                {work.link && (
+                  <div className="pt-4 mt-5 border-t border-line">
+                    <a
+                      href={work.link}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-1.5 font-mono text-xs font-medium text-fg hover:text-signal transition-colors group"
+                    >
+                      <span>{work.linkLabel || 'Open Link'}</span>
+                      <ArrowUpRight
+                        size={13}
+                        strokeWidth={1.5}
+                        className="transition-transform duration-150 group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
+                      />
+                    </a>
+                  </div>
                 )}
-                <p className="text-sm text-muted-foreground leading-relaxed">{work.description}</p>
-              </motion.div>
+              </article>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Certifications & Achievements */}
-      <section className="section-padding relative z-10">
-        <div className="container-custom">
-          <SectionHeading 
-            title="Certifications & Achievements"
-            subtitle="Physics Wallah recognition, national hackathon leadership, and cloud AI/ML certifications."
+      {/* Verified Certifications */}
+      <section className="section-editorial">
+        <div className="container-editorial">
+          <SectionHeading
+            indexLabel="03 / Credentials"
+            title="Verified Certifications & Hackathon Leadership"
+            subtitle="Documented achievements across Physics Wallah, Smart India Hackathon 2023, AWS SageMaker, and SAP S/4HANA."
           />
-          
-          <div className="max-w-3xl mx-auto">
-            {CERTIFICATIONS_LIST.map((exp, index) => (
-              <motion.div 
-                key={index}
-                initial={{ opacity: 0, x: -20 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true, margin: "-80px" }}
-                transition={{ delay: index * 0.1, duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-                className="relative pl-8 pb-10 border-l border-violet-500/20 last:border-0 last:pb-0"
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-5 items-stretch">
+            {CERTIFICATIONS_LIST.map((cert) => (
+              <article
+                key={cert.title}
+                className="arch-card-interactive p-6 flex flex-col justify-between h-full"
               >
-                <div className="absolute left-[-5px] top-1 w-2.5 h-2.5 bg-gradient-to-br from-violet-500 to-indigo-500 rounded-full shadow-lg shadow-violet-500/30" />
-                <div className="mb-1 flex items-center gap-2">
-                  <Calendar size={14} className="text-violet-400" />
-                  <span className="text-sm text-muted-foreground">{exp.year}</span>
+                <div>
+                  <div className="flex items-center justify-between gap-2 mb-4">
+                    <div className="inline-flex items-center gap-2 font-mono text-xs text-fg-tertiary">
+                      <Award size={15} strokeWidth={1.5} className="text-fg" />
+                      <span>{cert.org}</span>
+                    </div>
+                    <span className="font-mono text-xs text-signal">{cert.year}</span>
+                  </div>
+
+                  <h3 className="text-base sm:text-lg font-semibold tracking-[-0.02em] text-fg mb-2">
+                    {cert.title}
+                  </h3>
+                  <p className="text-sm text-fg-secondary leading-relaxed">{cert.desc}</p>
                 </div>
-                <h3 className="text-lg font-bold font-display text-foreground">{exp.title}</h3>
-                <div className="flex flex-wrap items-center gap-3 mb-1">
-                  <span className="text-violet-400 text-sm">{exp.org}</span>
-                  {exp.certLink && (
+
+                {cert.certLink && (
+                  <div className="pt-4 mt-5 border-t border-line">
                     <a
-                      href={exp.certLink}
+                      href={cert.certLink}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="inline-flex items-center gap-1 text-xs font-medium text-cyan-400 hover:text-cyan-300 transition-colors"
+                      className="inline-flex items-center gap-1.5 font-mono text-xs font-medium text-fg hover:text-signal transition-colors group"
                     >
-                      Verify Certificate <ExternalLink size={12} />
+                      <span>Verify Certificate</span>
+                      <ArrowUpRight
+                        size={13}
+                        strokeWidth={1.5}
+                        className="transition-transform duration-150 group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
+                      />
                     </a>
-                  )}
-                </div>
-                <p className="text-sm text-muted-foreground leading-relaxed">{exp.desc}</p>
-              </motion.div>
+                  </div>
+                )}
+              </article>
             ))}
           </div>
         </div>
       </section>
-      
+
       {/* Education */}
-      <section className="section-padding relative z-10">
-        <div className="container-custom">
-          <SectionHeading 
-            title="Education"
-            subtitle="Academic background and qualifications."
+      <section className="section-editorial">
+        <div className="container-editorial">
+          <SectionHeading
+            indexLabel="04 / Education"
+            title="Academic Qualifications"
+            subtitle="Formal engineering and secondary academic credentials."
           />
-          
-          <div className="max-w-3xl mx-auto">
-            {EDUCATION_LIST.map((edu, index) => (
-              <motion.div 
-                key={index}
-                initial={{ opacity: 0, x: -20 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true, margin: "-80px" }}
-                transition={{ delay: index * 0.1, duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-                className="relative pl-8 pb-10 border-l border-fuchsia-500/20 last:border-0 last:pb-0"
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-5 items-stretch">
+            {EDUCATION_LIST.map((edu) => (
+              <article
+                key={edu.degree}
+                className="arch-card p-6 flex flex-col justify-between h-full"
               >
-                <div className="absolute left-[-5px] top-1 w-2.5 h-2.5 bg-gradient-to-br from-fuchsia-500 to-pink-500 rounded-full shadow-lg shadow-fuchsia-500/30" />
-                <div className="mb-1 flex items-center gap-2">
-                  <BookOpen size={14} className="text-fuchsia-400" />
-                  <span className="text-sm text-muted-foreground">{edu.period}</span>
+                <div>
+                  <div className="flex items-center justify-between gap-2 mb-4">
+                    <div className="w-9 h-9 rounded-lg border border-line bg-surface-elevated flex items-center justify-center text-fg">
+                      <GraduationCap size={16} strokeWidth={1.5} />
+                    </div>
+                    <span className="font-mono text-xs font-semibold text-signal">
+                      {edu.metric}
+                    </span>
+                  </div>
+                  <h3 className="text-base font-semibold tracking-[-0.015em] text-fg mb-1">
+                    {edu.degree}
+                  </h3>
+                  <p className="text-xs font-mono text-fg-tertiary mb-3">{edu.institution}</p>
+                  <p className="text-sm text-fg-secondary leading-relaxed">
+                    {edu.description}
+                  </p>
                 </div>
-                <h3 className="text-lg font-bold font-display text-foreground">{edu.degree}</h3>
-                <p className="text-fuchsia-400 text-sm mb-1">{edu.institution}</p>
-                <p className="text-sm text-muted-foreground leading-relaxed">{edu.description}</p>
-              </motion.div>
+
+                <div className="pt-4 mt-5 border-t border-line font-mono text-xs text-fg-tertiary">
+                  {edu.period}
+                </div>
+              </article>
             ))}
           </div>
         </div>
@@ -134,7 +181,7 @@ export default function AboutPage() {
 export async function getStaticProps() {
   return {
     props: {
-      title: 'About'
-    }
+      title: 'About & Experience',
+    },
   };
 }

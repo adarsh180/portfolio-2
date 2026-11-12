@@ -1,116 +1,125 @@
-import { motion } from 'framer-motion';
-import { Code2, Layout, Wrench, Database } from 'lucide-react';
-import { GlowingEffect } from './ui/GlowingEffect';
+import { Code2, Layers, ScanSearch, Server } from 'lucide-react';
 import SectionHeading from './ui/SectionHeading';
 
-const skillsData = [
+const STACK_SPECIFICATIONS = [
   {
+    code: 'STK-01',
     category: 'Programming Languages',
-    icon: <Code2 size={20} className="text-violet-400" />,
-    gradient: 'from-violet-600 to-indigo-600',
-    skills: [
-      { name: 'TypeScript / JavaScript', level: 88 },
-      { name: 'Python', level: 82 },
-      { name: 'C++ / C', level: 85 },
-      { name: 'SQL', level: 80 },
-      { name: 'Java', level: 72 },
-    ]
+    subtitle: 'Core languages for web systems, algorithms, and data modeling.',
+    icon: <Code2 size={18} strokeWidth={1.5} />,
+    items: [
+      'TypeScript',
+      'JavaScript (ES6+)',
+      'Python',
+      'C++',
+      'C',
+      'SQL',
+      'Java',
+      'HTML5 & CSS3',
+    ],
   },
   {
-    category: 'Frameworks & Web Systems',
-    icon: <Layout size={20} className="text-fuchsia-400" />,
-    gradient: 'from-fuchsia-600 to-pink-600',
-    skills: [
-      { name: 'Next.js (App & Pages Router)', level: 88 },
-      { name: 'React', level: 86 },
-      { name: 'TailwindCSS & Modern CSS', level: 90 },
-      { name: 'Prisma ORM & PostgreSQL', level: 82 },
-      { name: 'WebAssembly & WebCodecs', level: 78 },
-    ]
+    code: 'STK-02',
+    category: 'Web Frameworks & Runtime APIs',
+    subtitle: 'Modern application frameworks, relational ORMs, and browser engines.',
+    icon: <Layers size={18} strokeWidth={1.5} />,
+    items: [
+      'Next.js (App & Pages Router)',
+      'React 18',
+      'TailwindCSS',
+      'Material UI',
+      'Prisma ORM',
+      'PostgreSQL',
+      'WebAssembly',
+      'WebCodecs API',
+    ],
   },
   {
-    category: 'AI/ML, OCR & Document Tech',
-    icon: <Wrench size={20} className="text-cyan-400" />,
-    gradient: 'from-cyan-600 to-blue-600',
-    skills: [
-      { name: 'Multilingual OCR & Bounding Boxes', level: 88 },
-      { name: 'PDF & Document Layout Parsing', level: 90 },
-      { name: 'Machine Learning (Scikit-Learn, XGBoost)', level: 80 },
-      { name: 'Dataset Curation & Ground-Truth QA', level: 92 },
-      { name: 'AWS SageMaker', level: 75 },
-    ]
+    code: 'STK-03',
+    category: 'Document Vision, OCR & AI/ML',
+    subtitle: 'Multilingual layout parsing, supervised learning, and ground-truth curation.',
+    icon: <ScanSearch size={18} strokeWidth={1.5} />,
+    items: [
+      '14-Language Indian OCR',
+      '2D Region Bounding Boxes',
+      'PDF Layout & Reading Order',
+      'Scikit-Learn',
+      'XGBoost & Random Forest',
+      '100K+ Dataset Curation & QA',
+      'AWS SageMaker',
+      'Perspective Deskewing',
+    ],
   },
   {
-    category: 'DevOps, Systems & Languages',
-    icon: <Database size={20} className="text-emerald-400" />,
-    gradient: 'from-emerald-600 to-teal-600',
-    skills: [
-      { name: 'Git & GitHub', level: 88 },
-      { name: 'Docker & Kubernetes', level: 72 },
-      { name: 'Linux & Windows Systems', level: 85 },
-      { name: 'Hindi (Native — Devanagari)', level: 100 },
-      { name: 'English (Fluent Professional)', level: 95 },
-    ]
-  }
+    code: 'STK-04',
+    category: 'DevOps, Systems & Spoken Languages',
+    subtitle: 'Cloud deployment, cryptographic primitives, OS tooling, and bilingual fluency.',
+    icon: <Server size={18} strokeWidth={1.5} />,
+    items: [
+      'Git & GitHub',
+      'Vercel & Netlify CI/CD',
+      'Docker & Kubernetes',
+      'Linux & Windows Systems',
+      'SHA-256 & AES-256-GCM',
+      'Hindi — Native (Devanagari)',
+      'English — Fluent Professional',
+    ],
+  },
 ];
 
 export default function Skills() {
   return (
-    <section id="skills" className="section-padding relative z-10">
-      <div className="container-custom">
+    <section id="skills" className="section-editorial">
+      <div className="container-editorial">
         <SectionHeading
-          title="My Skills"
-          subtitle="Full-stack web engineering, multilingual Indian OCR & document systems, machine learning, and cloud tools."
+          indexLabel="04 / Technical Stack"
+          title="Languages, Frameworks & Tooling"
+          subtitle="Structured specification of technologies used across shipped web applications, document OCR tools, and machine learning pipelines."
         />
-        
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 lg:gap-5">
-          {skillsData.map((category, index) => (
-            <motion.div
-              key={category.category}
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-80px" }}
-              transition={{ delay: 0.1 * index, duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-5 items-stretch">
+          {STACK_SPECIFICATIONS.map((group) => (
+            <div
+              key={group.code}
+              className="arch-card-interactive p-6 flex flex-col justify-between h-full"
             >
-              <div className="relative rounded-[1.25rem] border border-white/[0.08] p-2 md:rounded-[1.5rem] md:p-3 h-full">
-                <GlowingEffect
-                  spread={40}
-                  glow={true}
-                  disabled={false}
-                  proximity={64}
-                  inactiveZone={0.01}
-                  borderWidth={3}
-                />
-                <div className="relative h-full rounded-xl border border-white/[0.06] bg-[hsl(var(--card))] p-6 shadow-sm dark:shadow-[0px_0px_27px_0px_rgba(45,45,45,0.3)]">
-                  <div className="flex items-center mb-6">
-                    <div className={`p-2.5 rounded-lg bg-gradient-to-br ${category.gradient} bg-opacity-20 mr-4`}>
-                      {category.icon}
+              <div>
+                <div className="flex items-start justify-between gap-4 pb-4 mb-5 border-b border-line">
+                  <div className="flex items-center gap-3.5">
+                    <div className="w-10 h-10 rounded-lg border border-line bg-surface-elevated flex items-center justify-center text-fg shrink-0">
+                      {group.icon}
                     </div>
-                    <h3 className="text-xl font-bold font-display">{category.category}</h3>
+                    <div>
+                      <h3 className="text-base sm:text-lg font-semibold tracking-[-0.02em] text-fg">
+                        {group.category}
+                      </h3>
+                      <p className="text-xs text-fg-secondary mt-0.5">{group.subtitle}</p>
+                    </div>
                   </div>
-                  
-                  <div className="space-y-4">
-                    {category.skills.map(skill => (
-                      <div key={skill.name}>
-                        <div className="flex justify-between mb-1.5">
-                          <span className="text-sm font-medium text-foreground">{skill.name}</span>
-                          <span className="text-sm font-medium text-muted-foreground">{skill.level}%</span>
-                        </div>
-                        <div className="w-full bg-white/[0.06] rounded-full h-2 overflow-hidden">
-                          <motion.div 
-                            className={`h-2 rounded-full bg-gradient-to-r ${category.gradient}`}
-                            initial={{ width: 0 }}
-                            whileInView={{ width: `${skill.level}%` }}
-                            viewport={{ once: true }}
-                            transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1], delay: 0.2 }}
-                          />
-                        </div>
-                      </div>
-                    ))}
-                  </div>
+                  <span className="font-mono text-[11px] text-fg-tertiary shrink-0">
+                    {group.code}
+                  </span>
+                </div>
+
+                <div className="flex flex-wrap gap-2">
+                  {group.items.map((skill) => {
+                    const isLanguageHighlight = skill.startsWith('Hindi');
+                    return (
+                      <span
+                        key={skill}
+                        className={
+                          isLanguageHighlight
+                            ? 'inline-flex items-center px-3 py-1.5 rounded-md font-mono text-xs leading-none pill-status'
+                            : 'inline-flex items-center px-3 py-1.5 rounded-md font-mono text-xs leading-none bg-surface-elevated border border-line text-fg hover:border-line-strong transition-colors'
+                        }
+                      >
+                        {skill}
+                      </span>
+                    );
+                  })}
                 </div>
               </div>
-            </motion.div>
+            </div>
           ))}
         </div>
       </div>

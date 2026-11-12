@@ -1,139 +1,221 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { motion, AnimatePresence } from 'framer-motion';
-import { FiSun, FiMoon, FiMenu, FiX } from 'react-icons/fi';
+import { Sun, Moon, Menu, X, FileDown } from 'lucide-react';
 import { useTheme } from '../context/ThemeContext';
+import { MonogramMark } from './ui/BrandIcons';
+
+const NAV_ITEMS = [
+  { id: 'about', href: '/#about', pageHref: '/about', label: 'Overview' },
+  { id: 'capabilities', href: '/#capabilities', pageHref: '/about', label: 'Capabilities' },
+  { id: 'projects', href: '/#projects', pageHref: '/projects', label: 'Work' },
+  { id: 'skills', href: '/#skills', pageHref: '/skills', label: 'Stack' },
+  { id: 'recognition', href: '/#recognition', pageHref: '/about', label: 'Recognition' },
+  { id: 'contact', href: '/#contact', pageHref: '/contact', label: 'Contact' },
+];
 
 export default function Navbar() {
   const { darkMode, toggleDarkMode } = useTheme();
   const [isOpen, setIsOpen] = useState(false);
-  const [scrolled, setScrolled] = useState(false);
+  const [activeSection, setActiveSection] = useState('');
   const router = useRouter();
+  const isHome = router.pathname === '/';
 
   useEffect(() => {
+    setIsOpen(false);
+  }, [router.asPath]);
+
+  useEffect(() => {
+    if (!isHome) {
+      setActiveSection('');
+      return;
+    }
+
+    const sectionIds = NAV_ITEMS.map((item) => item.id);
     const handleScroll = () => {
-      setScrolled(window.scrollY > 10);
+      const scrollPosition = window.scrollY + 140;
+      if (window.scrollY < 180) {
+        setActiveSection('');
+        return;
+      }
+      for (let i = sectionIds.length - 1; i >= 0; i -= 1) {
+        const el = document.getElementById(sectionIds[i]);
+        if (el && el.offsetTop <= scrollPosition) {
+          setActiveSection(sectionIds[i]);
+          return;
+        }
+      }
     };
-    window.addEventListener('scroll', handleScroll);
+
+    handleScroll();
+    window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
+  }, [isHome]);
 
-  const navLinks = [
-    { href: '/', label: 'Home' },
-    { href: '/about', label: 'About' },
-    { href: '/projects', label: 'Projects' },
-    { href: '/skills', label: 'Skills' },
-    { href: '/contact', label: 'Contact' },
-  ];
+  const handleNavClick = (e, item) => {
+    setIsOpen(false);
+    if (isHome) {
+      const target = document.getElementById(item.id);
+      if (target) {
+        e.preventDefault();
+        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        window.history.replaceState(null, '', `/#${item.id}`);
+        setActiveSection(item.id);
+      }
+    }
+  };
 
-  const toggleMenu = () => setIsOpen(!isOpen);
+  const isItemActive = (item) => {
+    if (isHome) {
+      return activeSection === item.id;
+    }
+    return router.pathname === item.pageHref && item.pageHref !== '/about'
+      ? true
+      : router.pathname === '/about' && item.id === 'about';
+  };
 
   return (
     <header
-      className={`fixed w-full z-50 transition-all duration-500 ${
-        scrolled
-          ? 'bg-black/40 backdrop-blur-2xl border-b border-white/[0.06] shadow-lg shadow-black/10'
-          : 'bg-transparent'
-      }`}
+      className="sticky top-0 z-50 w-full border-b border-line backdrop-blur-md transition-colors duration-150"
+      style={{ backgroundColor: 'var(--header-bg)' }}
     >
-      <div className="container-custom py-4">
-        <div className="flex items-center justify-between">
-          {/* Logo */}
-          <Link href="/" className="group flex items-center gap-2">
-            <div className="w-9 h-9 rounded-lg bg-gradient-to-br from-violet-600 to-indigo-600 flex items-center justify-center text-white font-bold font-display text-sm shadow-lg shadow-violet-500/25 group-hover:shadow-violet-500/40 transition-shadow">
-              AT
-            </div>
-            <span className="text-lg font-bold font-display gradient-text hidden sm:block">
+      <div className="container-editorial h-16 flex items-center justify-between gap-4">
+        {/* Brand Identity */}
+        <Link
+          href="/"
+          onClick={() => setIsOpen(false)}
+          className="inline-flex items-center gap-2.5 text-fg hover:opacity-85 transition-opacity shrink-0"
+        >
+          <MonogramMark className="w-6 h-6 text-fg" />
+          <div className="flex items-baseline gap-2">
+            <span className="text-sm font-semibold tracking-[-0.02em] text-fg">
               Adarsh Tiwari
             </span>
-          </Link>
-
-          {/* Desktop Navigation */}
-          <nav className="hidden md:flex items-center gap-1">
-            {navLinks.map((link) => {
-              const isActive = router.pathname === link.href;
-              return (
-                <Link
-                  key={link.href}
-                  href={link.href}
-                  className={`relative px-4 py-2 text-sm font-medium rounded-full transition-all duration-300 ${
-                    isActive
-                      ? 'text-white'
-                      : 'text-muted-foreground hover:text-foreground'
-                  }`}
-                >
-                  {isActive && (
-                    <motion.div
-                      layoutId="navbar-active"
-                      className="absolute inset-0 rounded-full bg-white/10 border border-white/[0.08]"
-                      transition={{ type: 'spring', stiffness: 380, damping: 30 }}
-                    />
-                  )}
-                  <span className="relative z-10">{link.label}</span>
-                </Link>
-              );
-            })}
-            <button
-              onClick={toggleDarkMode}
-              className="ml-2 p-2.5 rounded-full bg-white/5 border border-white/[0.08] hover:bg-white/10 transition-all duration-300"
-              aria-label="Toggle dark mode"
-            >
-              {darkMode ? <FiSun size={16} className="text-amber-400" /> : <FiMoon size={16} />}
-            </button>
-          </nav>
-
-          {/* Mobile Controls */}
-          <div className="flex items-center gap-2 md:hidden">
-            <button
-              onClick={toggleDarkMode}
-              className="p-2.5 rounded-full bg-white/5 border border-white/[0.08] hover:bg-white/10 transition-colors"
-              aria-label="Toggle dark mode"
-            >
-              {darkMode ? <FiSun size={16} className="text-amber-400" /> : <FiMoon size={16} />}
-            </button>
-            <button
-              onClick={toggleMenu}
-              className="p-2.5 rounded-full bg-white/5 border border-white/[0.08] hover:bg-white/10 transition-colors"
-              aria-label="Toggle menu"
-            >
-              {isOpen ? <FiX size={18} /> : <FiMenu size={18} />}
-            </button>
+            <span className="hidden lg:inline font-mono text-[11px] text-fg-tertiary">
+              / ECE &apos;25
+            </span>
           </div>
+        </Link>
+
+        {/* Desktop Navigation */}
+        <nav className="hidden md:flex items-center gap-1" aria-label="Primary Navigation">
+          {NAV_ITEMS.map((item) => {
+            const active = isItemActive(item);
+            return (
+              <Link
+                key={item.id}
+                href={item.href}
+                onClick={(e) => handleNavClick(e, item)}
+                className={`px-3 py-1.5 rounded-md text-sm font-medium transition-colors duration-150 ${
+                  active
+                    ? 'bg-surface-elevated text-fg'
+                    : 'text-fg-secondary hover:text-fg hover:bg-surface-elevated/60'
+                }`}
+              >
+                {item.label}
+              </Link>
+            );
+          })}
+        </nav>
+
+        {/* Right Controls */}
+        <div className="hidden md:flex items-center gap-2 shrink-0">
+          <a
+            href="/ADARSH-TIWARI.pdf"
+            download="Adarsh_Tiwari_Resume.pdf"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-md border border-line bg-surface text-xs font-mono font-medium text-fg-secondary hover:text-fg hover:border-line-strong transition-colors duration-150"
+          >
+            <FileDown size={14} strokeWidth={1.5} />
+            <span>Resume.pdf</span>
+          </a>
+
+          <button
+            type="button"
+            onClick={toggleDarkMode}
+            className="w-9 h-9 rounded-md border border-line bg-surface flex items-center justify-center text-fg-secondary hover:text-fg hover:border-line-strong transition-colors duration-150"
+            aria-label={darkMode ? 'Switch to light theme' : 'Switch to dark theme'}
+            title={darkMode ? 'Switch to light theme' : 'Switch to dark theme'}
+          >
+            {darkMode ? (
+              <Sun size={16} strokeWidth={1.5} />
+            ) : (
+              <Moon size={16} strokeWidth={1.5} />
+            )}
+          </button>
+        </div>
+
+        {/* Mobile Controls */}
+        <div className="flex md:hidden items-center gap-2">
+          <button
+            type="button"
+            onClick={toggleDarkMode}
+            className="w-9 h-9 rounded-md border border-line bg-surface flex items-center justify-center text-fg-secondary hover:text-fg transition-colors"
+            aria-label={darkMode ? 'Switch to light theme' : 'Switch to dark theme'}
+          >
+            {darkMode ? (
+              <Sun size={16} strokeWidth={1.5} />
+            ) : (
+              <Moon size={16} strokeWidth={1.5} />
+            )}
+          </button>
+          <button
+            type="button"
+            onClick={() => setIsOpen((prev) => !prev)}
+            className="w-9 h-9 rounded-md border border-line bg-surface flex items-center justify-center text-fg-secondary hover:text-fg transition-colors"
+            aria-label={isOpen ? 'Close navigation menu' : 'Open navigation menu'}
+            aria-expanded={isOpen}
+          >
+            {isOpen ? <X size={18} strokeWidth={1.5} /> : <Menu size={18} strokeWidth={1.5} />}
+          </button>
         </div>
       </div>
 
-      {/* Mobile Navigation Menu */}
-      <AnimatePresence>
-        {isOpen && (
-          <motion.div
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: 'auto' }}
-            exit={{ opacity: 0, height: 0 }}
-            transition={{ duration: 0.3, ease: 'easeInOut' }}
-            className="md:hidden overflow-hidden bg-black/60 backdrop-blur-2xl border-t border-white/[0.06]"
-          >
-            <div className="container-custom py-4">
-              <nav className="flex flex-col gap-1">
-                {navLinks.map((link) => (
-                  <Link
-                    key={link.href}
-                    href={link.href}
-                    className={`px-4 py-3 rounded-xl text-sm font-medium transition-all duration-300 ${
-                      router.pathname === link.href
-                        ? 'bg-white/10 text-white'
-                        : 'text-muted-foreground hover:text-foreground hover:bg-white/5'
-                    }`}
-                    onClick={() => setIsOpen(false)}
-                  >
-                    {link.label}
-                  </Link>
-                ))}
-              </nav>
+      {/* Mobile Drawer */}
+      {isOpen && (
+        <div className="md:hidden border-t border-line bg-surface">
+          <div className="container-editorial py-4 flex flex-col gap-1">
+            {NAV_ITEMS.map((item) => {
+              const active = isItemActive(item);
+              return (
+                <Link
+                  key={item.id}
+                  href={item.href}
+                  onClick={(e) => handleNavClick(e, item)}
+                  className={`px-3.5 py-2.5 rounded-lg text-sm font-medium transition-colors ${
+                    active
+                      ? 'bg-surface-elevated text-fg'
+                      : 'text-fg-secondary hover:text-fg hover:bg-surface-elevated'
+                  }`}
+                >
+                  {item.label}
+                </Link>
+              );
+            })}
+            <div className="pt-3 mt-2 border-t border-line flex items-center justify-between gap-3">
+              <Link
+                href="/projects"
+                onClick={() => setIsOpen(false)}
+                className="text-xs font-mono text-fg-secondary hover:text-fg"
+              >
+                All Projects Archive -&gt;
+              </Link>
+              <a
+                href="/ADARSH-TIWARI.pdf"
+                download="Adarsh_Tiwari_Resume.pdf"
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={() => setIsOpen(false)}
+                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-md border border-line bg-surface-elevated text-xs font-mono font-medium text-fg"
+              >
+                <FileDown size={14} strokeWidth={1.5} />
+                <span>Resume.pdf</span>
+              </a>
             </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+          </div>
+        </div>
+      )}
     </header>
   );
 }

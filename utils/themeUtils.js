@@ -1,25 +1,25 @@
-// Check if we're on the client side
 export const isClient = typeof window !== 'undefined';
 
-// Get the user's theme preference
 export const getThemePreference = () => {
-  if (!isClient) return false;
-  
-  // Check localStorage first
-  if (localStorage.getItem('darkMode') !== null) {
-    return localStorage.getItem('darkMode') === 'true';
+  if (!isClient) return true;
+  try {
+    const stored = localStorage.getItem('darkMode');
+    if (stored !== null) {
+      return stored === 'true';
+    }
+  } catch {
+    // Ignore storage access errors
   }
-  
-  // If no localStorage value, check system preference
-  return window.matchMedia('(prefers-color-scheme: dark)').matches;
+  return true;
 };
 
-// Set the theme in localStorage and apply to document
 export const setTheme = (isDark) => {
   if (!isClient) return;
-  
-  localStorage.setItem('darkMode', isDark ? 'true' : 'false');
-  
+  try {
+    localStorage.setItem('darkMode', isDark ? 'true' : 'false');
+  } catch {
+    // Ignore storage access errors
+  }
   if (isDark) {
     document.documentElement.classList.add('dark');
   } else {
@@ -27,7 +27,6 @@ export const setTheme = (isDark) => {
   }
 };
 
-// Toggle between light and dark mode
 export const toggleTheme = (currentMode) => {
   const newMode = !currentMode;
   setTheme(newMode);
